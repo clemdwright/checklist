@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/light_gray">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tartine"
+        android:textSize="@dimen/large_font_size"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentRight="true">
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="been"
+            android:id="@+id/been"
+            android:textOff="!been"
+            android:textOn="been"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:background="@drawable/been_toggle" />
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New ToggleButton"
+            android:id="@+id/save"
+            android:textOff="!save"
+            android:textOn="save"
+            android:background="@drawable/save_toggle" />
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New ToggleButton"
+            android:id="@+id/love"
+            android:textOff="!love"
+            android:textOn="love"
+            android:visibility="gone"
+            android:background="@drawable/love_toggle" />
+    </LinearLayout>
+
+</RelativeLayout>
