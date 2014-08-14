@@ -21,12 +21,18 @@ public class JsonParser {
     }
 
     protected String getJsonAsString() throws IOException {
+        Log.i("jsonParser", "getJsonAsString fires");
+
         InputStream stream = new URL(PLACE_FEED_URL).openConnection().getInputStream();
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(stream, "UTF-8"));
         StringBuilder result = new StringBuilder();
         String line;
+
+
+
         while ((line = reader.readLine()) != null) {
+            Log.i("jsonParser", line);
             result.append(line);
         }
         return result.toString();
@@ -38,14 +44,27 @@ public class JsonParser {
             + "&radius=500&types=food&key=AIzaSyDSxGRYQXuA7qy3Rzcu1zILt2hAqbNcHaM";
 
     public void parse(final ParseCompleteCallback parseCompleteCallback) {
+
+        Log.i("jsonParser", "parse fires");
+
         new AsyncTask<Void, Void, List<String>>() {
+
+
 
             @Override
             protected List<String> doInBackground(Void... params) {
+
+                Log.i("jsonParser", "do in background fires");
+
                 try {
+
+                    Log.i("jsonParser", "try fires");
 
 
                     String jsonString = getJsonAsString();
+
+                    Log.i("jsonString size", Integer.toString(jsonString.length())); //this is currently zero
+
                     Log.i("jsonString", jsonString); //logging string
                     JSONObject feed = new JSONObject(jsonString);
                     JSONArray places = feed.getJSONArray("results");

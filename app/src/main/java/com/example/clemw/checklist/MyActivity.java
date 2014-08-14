@@ -2,11 +2,11 @@ package com.example.clemw.checklist;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -35,42 +35,32 @@ public class MyActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        List<String> placeNames = new ArrayList<String>();
-        placeNames.add(0, "Tartine");
-        placeNames.add(1, "Delfina");
-        placeNames.add(2, "Bi-Rite");
+        JsonParser atomParser = new JsonParser();
+        atomParser.parse(new JsonParser.ParseCompleteCallback() {
+            @Override
+            public void onParseComplete(List<String> placeNames) {
+                Log.i("place names size", Integer.toString(placeNames.size())); //this is currently zero
+                for (int i = 0; i < placeNames.size(); i++) {
+                    Log.i("name", placeNames.get(i));
+                }
+                adapter.setPlaceNames(placeNames);
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
 
-//                JsonParser atomParser = new JsonParser();
-//        atomParser.parse(new JsonParser.ParseCompleteCallback() {
-//            @Override
-//            public void onParseComplete(List<String> placeNames) {
-//                Log.i("first name", placeNames.get(0));
-//                adapter.setPlaceNames(placeNames);
-//                adapter.notifyDataSetChanged();
-//            }
-//        });
-
-//        for (int i = 0; i < placeNames.size(); i++) {
-//            Log.i("name", placeNames.get(i));
-//        }
+//    Hard-coded place names
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        List<String> placeNames = new ArrayList<String>();
+//        placeNames.add(0, "Tartine");
+//        placeNames.add(1, "Delfina");
+//        placeNames.add(2, "Bi-Rite");
 //
-        adapter.setPlaceNames(placeNames);
 //        adapter.setPlaceNames(placeNames);
 //        adapter.notifyDataSetChanged();
-
-
-
-
-//        JsonParser atomParser = new JsonParser();
-//        atomParser.parse(new JsonParser.ParseCompleteCallback() {
-//            @Override
-//            public void onParseComplete(List<String> placeNames) {
-//                Log.i("first name", placeNames.get(0));
-////                adapter.setPlaceNames(placeNames);
-////                adapter.notifyDataSetChanged();
-//            }
-//        });
-    }
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
