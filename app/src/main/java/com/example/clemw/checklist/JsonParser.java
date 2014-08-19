@@ -72,7 +72,7 @@ public class JsonParser {
 
                     for (int i = 0; i < places.length(); i++) {
                         JSONObject place = places.getJSONObject(i);
-                        String name = place.getString("name");
+                        String name = place.getString("place_id");
                         Log.i("placeName", name); //logging place name
                         result.add(name);
                     }

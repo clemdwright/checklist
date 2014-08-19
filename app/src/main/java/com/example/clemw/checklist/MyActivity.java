@@ -3,7 +3,6 @@ package com.example.clemw.checklist;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +29,7 @@ public class MyActivity extends Activity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Intent intent = new Intent(MyActivity.this, PlaceDetailsActivity.class);
+                Intent intent = new Intent(MyActivity.this, DetailsActivity.class);
                 intent.putExtra("placeName", (String) adapter.getItem(position));
                 startActivity(intent);
             }
@@ -60,10 +59,6 @@ public class MyActivity extends Activity {
         atomParser.parse(new JsonParser.ParseCompleteCallback() {
             @Override
             public void onParseComplete(List<String> placeNames) {
-                Log.i("place names size", Integer.toString(placeNames.size())); //this is currently zero
-                for (int i = 0; i < placeNames.size(); i++) {
-                    Log.i("name", placeNames.get(i));
-                }
                 adapter.setPlaceNames(placeNames);
                 adapter.notifyDataSetChanged();
             }
