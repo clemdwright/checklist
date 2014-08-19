@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import java.util.List;
-
 public class DetailsActivity extends Activity {
 
-    private TextView textView;
+    private TextView nameView;
+    private TextView ratingView;
+    private TextView photoReferenceView;
 
     private String urlPrefix = "https://maps.googleapis.com/maps/api/place/details/json?placeid=";
     private String urlSuffix = "&key=AIzaSyDSxGRYQXuA7qy3Rzcu1zILt2hAqbNcHaM";
@@ -19,7 +19,9 @@ public class DetailsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_details);
 
-        textView = (TextView) findViewById(R.id.place_name);
+        nameView = (TextView) findViewById(R.id.name);
+        ratingView = (TextView) findViewById(R.id.rating);
+        photoReferenceView = (TextView) findViewById(R.id.photo_reference);
     }
 
     @Override
@@ -36,8 +38,11 @@ public class DetailsActivity extends Activity {
             DetailsJsonParser atomParser = new DetailsJsonParser(url);
             atomParser.parse(new DetailsJsonParser.ParseCompleteCallback() {
             @Override
-            public void onParseComplete(List<String> placeDetails) {
+            public void onParseComplete(Place place) {
                    //do something
+                nameView.setText(place.getName());
+                ratingView.setText(place.getRating().toString());
+                photoReferenceView.setText(place.getPhotoReference());
             }
         });
         }

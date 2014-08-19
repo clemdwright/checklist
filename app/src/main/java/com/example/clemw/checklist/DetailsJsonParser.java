@@ -11,8 +11,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.Collections;
-import java.util.List;
 
 public class DetailsJsonParser {
 
@@ -23,7 +21,7 @@ public class DetailsJsonParser {
     }
 
     public interface ParseCompleteCallback {
-        void onParseComplete(List<String> places);
+        void onParseComplete(Place result);
     }
 
     protected String getJsonAsString() throws IOException {
@@ -39,10 +37,10 @@ public class DetailsJsonParser {
     }
 
     public void parse(final ParseCompleteCallback parseCompleteCallback) {
-        new AsyncTask<Void, Void, List<String>>() {
+        new AsyncTask<Void, Void, Place>() {
 
             @Override
-            protected List<String> doInBackground(Void... params) {
+            protected Place doInBackground(Void... params) {
                 try {
                     String jsonString = getJsonAsString();
                     JSONObject feed = new JSONObject(jsonString);
@@ -56,20 +54,20 @@ public class DetailsJsonParser {
 
                     Log.i("DetailsJsonParser", name);
 
-                    Place result = new Place(name);
+                    Place result = new Place(name, rating, photoReference);
 
                     Log.i("DetailsJsonParser", result.getName());
 
                     //add this stuff to the result?
 
-                    return Collections.emptyList();
+                    return result;
                 } catch (Exception e) {
-                    return Collections.emptyList();
+                    return null; //probably need to return an empty place object somehow
                 }
             }
 
             @Override
-            protected void onPostExecute(List<String> result) {
+            protected void onPostExecute(Place result) {
                 parseCompleteCallback.onParseComplete(result);
             }
         }.execute();
