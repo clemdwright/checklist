@@ -1,10 +1,13 @@
 package com.example.clemw.checklist;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.List;
@@ -20,8 +23,26 @@ public class MyActivity extends Activity {
         setContentView(R.layout.activity_my);
 
         ListView listView = (ListView) findViewById(R.id.listView);
-        adapter = new ListAdapter (this);
+        adapter = new ListAdapter(this);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                Intent intent = new Intent(MyActivity.this, PlaceDetailsActivity.class);
+                intent.putExtra("placeName", (String) adapter.getItem(position));
+                startActivity(intent);
+            }
+        });
+
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+//                Log.i("MyActivity", "clicked listItem");
+//            }
+//        });
+
     }
 
 

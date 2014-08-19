@@ -32,6 +32,13 @@ public class ListAdapter extends BaseAdapter {
         return 0;
     }
 
+//    @Override
+//    public View getView(int position, View convertView, ViewGroup parent) {
+//        TextView textView = new TextView(context);
+//        textView.setText("hello");
+//        return textView;
+//    }
+
     //http://stackoverflow.com/questions/13889225/create-views-programmatically-using-xml-on-android
     //can't use findById here to grab the text view of the inflated layout. need to figure out
 //    @Override
