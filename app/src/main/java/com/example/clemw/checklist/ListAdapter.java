@@ -12,19 +12,19 @@ import java.util.List;
 public class ListAdapter extends BaseAdapter {
 
     private final Context context;
-    private List<String> placeNames = new ArrayList<String>();
+    private List<Place> places = new ArrayList<Place>();
 
     @Override
     public int getCount() {
-        return placeNames.size();
+        return places.size();
     }
 
     @Override
     public Object getItem(int position) {
-        if (position >= placeNames.size()) {
+        if (position >= places.size()) {
             return null;
         }
-        return placeNames.get(position);
+        return places.get(position);
     }
 
     @Override
@@ -56,13 +56,13 @@ public class ListAdapter extends BaseAdapter {
         } else {
             textView = (TextView) convertView;
         }
-        if (position >= placeNames.size()) { // data not yet downloaded!
+        if (position >= places.size()) { // data not yet downloaded!
             return textView;
         }
-        String placeName = placeNames.get(position);
+        Place place = places.get(position);
 //        Bitmap bitmap = imageCache.get(imageUrl);
-        if (placeName != null) {
-            textView.setText(placeName);
+        if (place != null) {
+            textView.setText(place.getName());
         } else {
 //            if (!downloadingImageUrls.contains(imageUrl)) {
 //                Log.i("ImageAdapter", "!downloadingImageUrls.contains(imageUrl). downloading image. position: " + position);
@@ -78,8 +78,8 @@ public class ListAdapter extends BaseAdapter {
         context = c;
     }
 
-    public void setPlaceNames(List<String> placeNames) {
-        this.placeNames = placeNames;
+    public void setPlaceNames(List<Place> placeNames) {
+        this.places = placeNames;
     }
 
 }

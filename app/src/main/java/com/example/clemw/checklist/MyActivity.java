@@ -30,7 +30,9 @@ public class MyActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Intent intent = new Intent(MyActivity.this, DetailsActivity.class);
-                intent.putExtra("placeName", (String) adapter.getItem(position));
+                Place place = (Place) adapter.getItem(position);
+                String place_id = place.getPlaceId();
+                intent.putExtra("place_id", place_id);
                 startActivity(intent);
             }
         });
@@ -58,8 +60,8 @@ public class MyActivity extends Activity {
         JsonParser atomParser = new JsonParser();
         atomParser.parse(new JsonParser.ParseCompleteCallback() {
             @Override
-            public void onParseComplete(List<String> placeNames) {
-                adapter.setPlaceNames(placeNames);
+            public void onParseComplete(List<Place> places) {
+                adapter.setPlaceNames(places);
                 adapter.notifyDataSetChanged();
             }
         });

@@ -1,6 +1,7 @@
 package com.example.clemw.checklist;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -16,8 +17,13 @@ import java.util.List;
 
 public class JsonParser {
     public interface ParseCompleteCallback {
-        void onParseComplete(List<String> places);
+        void onParseComplete(List<Place> places);
     }
+
+    //    https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=37.760107,-122.425908&radius=500&types=food&key=AIzaSyDSxGRYQXuA7qy3Rzcu1zILt2hAqbNcHaM
+    private static final String PLACE_FEED_URL = "https://maps.googleapis.com/"
+            + "maps/api/place/nearbysearch/json?location=37.760107,-122.425908"
+            + "&radius=500&types=food&key=AIzaSyDSxGRYQXuA7qy3Rzcu1zILt2hAqbNcHaM";
 
     protected String getJsonAsString() throws IOException {
         InputStream stream = new URL(PLACE_FEED_URL).openConnection().getInputStream();
@@ -32,36 +38,33 @@ public class JsonParser {
         return result.toString();
     }
 
-//    https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=37.760107,-122.425908&radius=500&types=food&key=AIzaSyDSxGRYQXuA7qy3Rzcu1zILt2hAqbNcHaM
-    private static final String PLACE_FEED_URL = "https://maps.googleapis.com/"
-            + "maps/api/place/nearbysearch/json?location=37.760107,-122.425908"
-            + "&radius=500&types=food&key=AIzaSyDSxGRYQXuA7qy3Rzcu1zILt2hAqbNcHaM";
-
     public void parse(final ParseCompleteCallback parseCompleteCallback) {
-        new AsyncTask<Void, Void, List<String>>() {
+        new AsyncTask<Void, Void, List<Place>>() {
 
             @Override
-            protected List<String> doInBackground(Void... params) {
+            protected List<Place> doInBackground(Void... params) {
                 try {
                     String jsonString = getJsonAsString();
+
                     JSONObject feed = new JSONObject(jsonString);
                     JSONArray places = feed.getJSONArray("results");
-                    List<String> result = new ArrayList<String>();
+                    List<Place> list = new ArrayList<Place>();
 
                     for (int i = 0; i < places.length(); i++) {
                         JSONObject place = places.getJSONObject(i);
-                        String name = place.getString("place_id");
-                        result.add(name);
+                        Place item = new Place(place);
+                        list.add(item);
                     }
 
-                    return result;
+                    return list;
                 } catch (Exception e) {
+                    Log.e("JsonParser", "Error creating list from parsed JSON");
                     return Collections.emptyList();
                 }
             }
 
             @Override
-            protected void onPostExecute(List<String> result) {
+            protected void onPostExecute(List<Place> result) {
                 parseCompleteCallback.onParseComplete(result);
             }
         }.execute();

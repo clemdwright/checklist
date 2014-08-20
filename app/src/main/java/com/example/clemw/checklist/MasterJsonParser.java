@@ -24,7 +24,7 @@ public class MasterJsonParser {
 
     private String url;
 
-    public MasterJsonParser(String url) {
+    public MasterJsonParser(String url, Boolean isList) {
         this.url = url;
     }
 

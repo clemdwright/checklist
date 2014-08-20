@@ -2,7 +2,6 @@ package com.example.clemw.checklist;
 
 import android.os.AsyncTask;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -44,19 +43,9 @@ public class DetailsJsonParser {
             protected Place doInBackground(Void... params) {
                 try {
                     String jsonString = getJsonAsString();
-
-
-
                     JSONObject feed = new JSONObject(jsonString);
                     JSONObject place = feed.getJSONObject("result");
-
-                    String name = place.getString("name");
-                    Double rating = place.getDouble("rating");
-                    JSONArray photos = place.getJSONArray("photos");
-                    JSONObject firstPhoto = photos.getJSONObject(0);
-                    String photoReference = firstPhoto.getString("photo_reference");
-
-                    Place result = new Place(name, rating, photoReference);
+                    Place result = new Place(place);
                     return result;
                 } catch (Exception e) {
                     return null; //probably need to return an empty place object somehow
