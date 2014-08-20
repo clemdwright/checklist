@@ -10,6 +10,8 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -45,20 +47,37 @@ public class DetailsActivity extends Activity {
             String placeId = intent.getExtras().getString("place_id");
             String url = urlPrefix + placeId + urlSuffix;
 
-            DetailsJsonParser atomParser = new DetailsJsonParser(url);
-            atomParser.parse(new DetailsJsonParser.ParseCompleteCallback() {
+            MasterJsonParser atomParser = new MasterJsonParser(url);
+            atomParser.parse(new MasterJsonParser.ParseCompleteCallback() {
 
                 @Override
-                public void onParseComplete(Place place) {
-                    nameView.setText(place.getName());
-                    Double rating = place.getRating();
-                    Double price_level = place.getPriceLevel();
-                    if (rating != null) ratingView.setText(rating.toString());
-                    if (price_level != null) priceLevelView.setText(price_level.toString());
-                    new DownloadImageAsyncTask().execute(place.getImageUrl());
+                public void onParseComplete(JSONObject jsonObject) {
+                    Place place = parsePlace(jsonObject);
+                    populateViews(place);
                 }
             });
         }
+    }
+
+    private Place parsePlace(JSONObject jsonObject) {
+        JSONObject jsonPlace;
+        try {
+            jsonPlace = jsonObject.getJSONObject("result");
+        } catch (Exception e) {
+            jsonPlace = null;
+            Log.e("DetailsActivity", "Error parsing place from JSON");
+        }
+        Place place = new Place(jsonPlace);
+        return place;
+    }
+
+    private void populateViews(Place place) {
+        nameView.setText(place.getName());
+        Double rating = place.getRating();
+        Double price_level = place.getPriceLevel();
+        if (rating != null) ratingView.setText(rating.toString());
+        if (price_level != null) priceLevelView.setText(price_level.toString());
+        new DownloadImageAsyncTask().execute(place.getImageUrl());
     }
 
     class DownloadImageAsyncTask extends AsyncTask<String, Void, Bitmap> {

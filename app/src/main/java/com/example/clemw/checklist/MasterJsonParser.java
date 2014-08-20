@@ -1,6 +1,7 @@
 package com.example.clemw.checklist;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -24,7 +25,7 @@ public class MasterJsonParser {
 
     private String url;
 
-    public MasterJsonParser(String url, Boolean isList) {
+    public MasterJsonParser(String url) {
         this.url = url;
     }
 
@@ -51,6 +52,7 @@ public class MasterJsonParser {
             protected JSONObject doInBackground(Void... params) {
                 try {
                     String jsonString = getJsonAsString();
+                    Log.i("MasterJsonParser", jsonString);
                     JSONObject jsonObject = new JSONObject(jsonString);
                     return jsonObject;
                 } catch (Exception e) {

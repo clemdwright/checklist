@@ -3,18 +3,27 @@ package com.example.clemw.checklist;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
 public class MyActivity extends Activity {
 
     private ListAdapter adapter;
+    private static final String url = "https://maps.googleapis.com/"
+            + "maps/api/place/nearbysearch/json?location=37.760107,-122.425908"
+            + "&radius=500&types=food&key=AIzaSyDSxGRYQXuA7qy3Rzcu1zILt2hAqbNcHaM";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,16 +45,7 @@ public class MyActivity extends Activity {
                 startActivity(intent);
             }
         });
-
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-//                Log.i("MyActivity", "clicked listItem");
-//            }
-//        });
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -57,28 +57,32 @@ public class MyActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        JsonParser atomParser = new JsonParser();
-        atomParser.parse(new JsonParser.ParseCompleteCallback() {
-            @Override
-            public void onParseComplete(List<Place> places) {
+        MasterJsonParser atomParser = new MasterJsonParser(url);
+        atomParser.parse(new MasterJsonParser.ParseCompleteCallback() {
+
+            public void onParseComplete(JSONObject jsonObject) {
+                List<Place> places = parsePlacesList(jsonObject);
                 adapter.setPlaceNames(places);
                 adapter.notifyDataSetChanged();
             }
         });
     }
 
-//    Hard-coded place names
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        List<String> placeNames = new ArrayList<String>();
-//        placeNames.add(0, "Tartine");
-//        placeNames.add(1, "Delfina");
-//        placeNames.add(2, "Bi-Rite");
-//
-//        adapter.setPlaceNames(placeNames);
-//        adapter.notifyDataSetChanged();
-//    }
+    private List<Place> parsePlacesList(JSONObject jsonObject) {
+        List<Place> list = new ArrayList<Place>();
+        try {
+            JSONArray places = jsonObject.getJSONArray("results");
+            for (int i = 0; i < places.length(); i++) {
+                JSONObject place = places.getJSONObject(i);
+                Place item = new Place(place);
+                list.add(item);
+            }
+            return list;
+        } catch (Exception e) {
+            Log.e("JsonParser", "Error creating list from parsed JSON");
+            return Collections.emptyList();
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
