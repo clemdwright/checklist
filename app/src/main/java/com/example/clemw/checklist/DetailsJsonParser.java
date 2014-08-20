@@ -1,7 +1,6 @@
 package com.example.clemw.checklist;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -24,6 +23,7 @@ public class DetailsJsonParser {
         void onParseComplete(Place result);
     }
 
+    //This code is duplicated between both JSON parsers
     protected String getJsonAsString() throws IOException {
         InputStream stream = new URL(url).openConnection().getInputStream();
         BufferedReader reader = new BufferedReader(
@@ -36,6 +36,7 @@ public class DetailsJsonParser {
         return result.toString();
     }
 
+    //This code is duplicated too... maybe find way for it to return abstract type?
     public void parse(final ParseCompleteCallback parseCompleteCallback) {
         new AsyncTask<Void, Void, Place>() {
 
@@ -43,6 +44,9 @@ public class DetailsJsonParser {
             protected Place doInBackground(Void... params) {
                 try {
                     String jsonString = getJsonAsString();
+
+
+
                     JSONObject feed = new JSONObject(jsonString);
                     JSONObject place = feed.getJSONObject("result");
 
@@ -52,14 +56,7 @@ public class DetailsJsonParser {
                     JSONObject firstPhoto = photos.getJSONObject(0);
                     String photoReference = firstPhoto.getString("photo_reference");
 
-                    Log.i("DetailsJsonParser", name);
-
                     Place result = new Place(name, rating, photoReference);
-
-                    Log.i("DetailsJsonParser", result.getName());
-
-                    //add this stuff to the result?
-
                     return result;
                 } catch (Exception e) {
                     return null; //probably need to return an empty place object somehow
