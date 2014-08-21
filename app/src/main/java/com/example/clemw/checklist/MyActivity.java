@@ -38,6 +38,7 @@ public class MyActivity extends Activity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                Log.i("MyActivity", "item clicked");
                 Intent intent = new Intent(MyActivity.this, DetailsActivity.class);
                 Place place = (Place) adapter.getItem(position);
                 String place_id = place.getPlaceId();
