@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -50,63 +50,49 @@ public class ListAdapter extends ArrayAdapter {
     //The simpler approach to this (without view caching) is the following:
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // Get the data item for this position
-        Place place = (Place) getItem(position);
+        // Declare list item layout
+        RelativeLayout listItem;
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
+            LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+            listItem = (RelativeLayout) layoutInflater.inflate(R.layout.list_item, parent, false);
+        } else {
+            listItem = (RelativeLayout) convertView;
         }
 
-        LinearLayout toggleButtons = (LinearLayout) convertView.findViewById(R.id.toggle_buttons);
-        final ToggleButton been = (ToggleButton) toggleButtons.findViewById(R.id.been);
-        final ToggleButton save = (ToggleButton) toggleButtons.findViewById(R.id.save);
-        final ToggleButton love = (ToggleButton) toggleButtons.findViewById(R.id.love);
-
-        been.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    // The toggle is enabled
-                    save.setVisibility(View.GONE);
-                    love.setVisibility(View.VISIBLE);
-                    save.setChecked(false);
-                } else {
-                    // The toggle is disabled
-                    save.setVisibility(View.VISIBLE);
-                    love.setVisibility(View.GONE);
-                }
-            }
-        });
-
-        love.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    // The toggle is enabled
-                    been.setVisibility(View.GONE);
-                } else {
-                    // The toggle is disabled
-                    been.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-        save.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    // The toggle is enabled
-                    been.setChecked(false);
-                } else {
-                    // The toggle is disabled
-                }
-            }
-        });
-
-
         // Lookup view for data population
-        TextView placeName = (TextView) convertView.findViewById(R.id.place_name);
+        TextView placeName = (TextView) listItem.findViewById(R.id.place_name);
+        // Get the data item for this position
+        final Place place = (Place) getItem(position);
         // Populate the data into the template view using the data object
         placeName.setText(place.getName());
+
+
+        LinearLayout toggleButtons = (LinearLayout) listItem.findViewById(R.id.toggle_buttons);
+        final ToggleButton been = (ToggleButton) toggleButtons.findViewById(R.id.been);
+//
+//        if (place.getBeen()) {
+//            been.setChecked(true);
+//        } else {
+//            been.setChecked(false);
+//        }
+//
+//        been.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//
+//                if (isChecked) {
+//                    // The toggle is enabled
+//                    place.setBeen(true);
+//                } else {
+//                    // The toggle is disabled
+//                    place.setBeen(false);
+//                }
+//            }
+//        });
+
+
         // Return the completed view to render on screen
-        return convertView;
+        return listItem;
     }
 }
 

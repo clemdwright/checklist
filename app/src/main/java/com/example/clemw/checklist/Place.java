@@ -16,6 +16,7 @@ public class Place extends Object {
     private final String urlPrefix = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=";
     private final String urlSuffix = "&key=AIzaSyDSxGRYQXuA7qy3Rzcu1zILt2hAqbNcHaM";
     private String imageUrl;
+//    private Boolean been = false;
 
     public Place(JSONObject place) {
         try {
@@ -73,4 +74,12 @@ public class Place extends Object {
     public String getImageUrl() {
         return imageUrl;
     }
+//
+//    public void setBeen(Boolean been) {
+//        this.been = been;
+//    }
+//
+//    public Boolean getBeen() {
+//        return this.been;
+//    }
 }
