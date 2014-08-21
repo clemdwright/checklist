@@ -30,6 +30,7 @@ public class DetailsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_details);
+//        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         nameView = (TextView) findViewById(R.id.name);
         ratingView = (TextView) findViewById(R.id.rating);
