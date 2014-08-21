@@ -57,8 +57,8 @@ public class MyActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        MasterJsonParser atomParser = new MasterJsonParser(url);
-        atomParser.parse(new MasterJsonParser.ParseCompleteCallback() {
+        JsonParser atomParser = new JsonParser(url);
+        atomParser.parse(new JsonParser.ParseCompleteCallback() {
 
             public void onParseComplete(JSONObject jsonObject) {
                 List<Place> places = parsePlacesList(jsonObject);

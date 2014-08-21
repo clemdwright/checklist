@@ -1,7 +1,6 @@
 package com.example.clemw.checklist;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.json.JSONObject;
 
@@ -12,20 +11,11 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 
-/*
- *  Tried building this to reduce duplication in json parsers
- *  Unfortunately, once i passed the json object to the other classes,
- *  I got an unhandled json exception when trying to getString etc.
- *  For some reason it's necessary to do the parsing... wait... maybe if i add a try?
- *  Yeah, adding a try got past some off the errors, but still had issues...
- */
-
-
-public class MasterJsonParser {
+public class JsonParser {
 
     private String url;
 
-    public MasterJsonParser(String url) {
+    public JsonParser(String url) {
         this.url = url;
     }
 
@@ -52,7 +42,6 @@ public class MasterJsonParser {
             protected JSONObject doInBackground(Void... params) {
                 try {
                     String jsonString = getJsonAsString();
-                    Log.i("MasterJsonParser", jsonString);
                     JSONObject jsonObject = new JSONObject(jsonString);
                     return jsonObject;
                 } catch (Exception e) {

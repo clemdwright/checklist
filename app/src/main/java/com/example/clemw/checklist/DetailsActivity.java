@@ -47,8 +47,8 @@ public class DetailsActivity extends Activity {
             String placeId = intent.getExtras().getString("place_id");
             String url = urlPrefix + placeId + urlSuffix;
 
-            MasterJsonParser atomParser = new MasterJsonParser(url);
-            atomParser.parse(new MasterJsonParser.ParseCompleteCallback() {
+            JsonParser atomParser = new JsonParser(url);
+            atomParser.parse(new JsonParser.ParseCompleteCallback() {
 
                 @Override
                 public void onParseComplete(JSONObject jsonObject) {
