@@ -17,6 +17,7 @@
         android:layout_marginLeft="@dimen/activity_horizontal_margin" />
 
     <LinearLayout
+        android:id="@+id/toggle_buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

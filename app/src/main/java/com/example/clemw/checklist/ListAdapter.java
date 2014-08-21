@@ -1,36 +1,31 @@
 package com.example.clemw.checklist;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListAdapter extends ArrayAdapter {
 
-
-
-    private final Context context;
     private static List<Place> places = new ArrayList<Place>();
 
-//    public ListAdapter(Context c) {
-//        context = c;
-//    }
-
-
-    public void setPlaceNames(List<Place> places) {
+    public void setPlaces(List<Place> places) {
         this.places = places;
     }
 
     public ListAdapter(Context context) {
         super(context, R.layout.list_item, places);
-        this.context = context;
+        Log.i("ListAdapter", context.toString());
     }
-
 
     @Override
     public int getCount() {
@@ -56,11 +51,56 @@ public class ListAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        Place place = places.get(position);
+        Place place = (Place) getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
         }
+
+        LinearLayout toggleButtons = (LinearLayout) convertView.findViewById(R.id.toggle_buttons);
+        final ToggleButton been = (ToggleButton) toggleButtons.findViewById(R.id.been);
+        final ToggleButton save = (ToggleButton) toggleButtons.findViewById(R.id.save);
+        final ToggleButton love = (ToggleButton) toggleButtons.findViewById(R.id.love);
+
+        been.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // The toggle is enabled
+                    save.setVisibility(View.GONE);
+                    love.setVisibility(View.VISIBLE);
+                    save.setChecked(false);
+                } else {
+                    // The toggle is disabled
+                    save.setVisibility(View.VISIBLE);
+                    love.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        love.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // The toggle is enabled
+                    been.setVisibility(View.GONE);
+                } else {
+                    // The toggle is disabled
+                    been.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        save.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // The toggle is enabled
+                    been.setChecked(false);
+                } else {
+                    // The toggle is disabled
+                }
+            }
+        });
+
+
         // Lookup view for data population
         TextView placeName = (TextView) convertView.findViewById(R.id.place_name);
         // Populate the data into the template view using the data object
@@ -68,6 +108,8 @@ public class ListAdapter extends ArrayAdapter {
         // Return the completed view to render on screen
         return convertView;
     }
+}
+
 
 //    @Override
 //    public View getView(int position, View convertView, ViewGroup parent) {
@@ -94,7 +136,3 @@ public class ListAdapter extends ArrayAdapter {
 //        }
 //        return textView;
 //    }
-
-
-
-}

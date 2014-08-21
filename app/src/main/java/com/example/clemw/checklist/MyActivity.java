@@ -63,7 +63,7 @@ public class MyActivity extends Activity {
 
             public void onParseComplete(JSONObject jsonObject) {
                 List<Place> places = parsePlacesList(jsonObject);
-                adapter.setPlaceNames(places);
+                adapter.setPlaces(places);
                 adapter.notifyDataSetChanged();
             }
         });
