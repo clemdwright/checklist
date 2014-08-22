@@ -25,6 +25,12 @@ public class MyActivity extends Activity {
             + "maps/api/place/nearbysearch/json?location=37.760107,-122.425908"
             + "&radius=500&types=food&key=AIzaSyDSxGRYQXuA7qy3Rzcu1zILt2hAqbNcHaM";
 
+    /*
+    * Define a request code to send to Google Play services
+    * This code is returned in Activity.onActivityResult
+    */
+//    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
