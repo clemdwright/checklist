@@ -34,9 +34,13 @@ public class MyActivity extends FragmentActivity implements
         GooglePlayServicesClient.OnConnectionFailedListener {
 
     private ListAdapter adapter;
-    private static final String url = "https://maps.googleapis.com/"
-            + "maps/api/place/nearbysearch/json?location=37.760107,-122.425908"
-            + "&radius=500&types=food&key=AIzaSyDSxGRYQXuA7qy3Rzcu1zILt2hAqbNcHaM";
+//    private static final String url = "https://maps.googleapis.com/"
+//            + "maps/api/place/nearbysearch/json?location=37.760107,-122.425908"
+//            + "&radius=500&types=food&key=AIzaSyDSxGRYQXuA7qy3Rzcu1zILt2hAqbNcHaM";
+
+    private String urlPrefix = "https://maps.googleapis.com/"
+            + "maps/api/place/nearbysearch/json?location=";
+    private String urlSuffix = "&radius=500&types=food&key=AIzaSyDSxGRYQXuA7qy3Rzcu1zILt2hAqbNcHaM";
 
     //Clem added: global variable to hold location client
     LocationClient mLocationClient;
@@ -84,15 +88,7 @@ public class MyActivity extends FragmentActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-        JsonParser atomParser = new JsonParser(url);
-        atomParser.parse(new JsonParser.ParseCompleteCallback() {
 
-            public void onParseComplete(JSONObject jsonObject) {
-                List<Place> places = parsePlacesList(jsonObject);
-                adapter.setPlaces(places);
-                adapter.notifyDataSetChanged();
-            }
-        });
 
        /*
         * Called when the Activity becomes visible.
@@ -139,7 +135,7 @@ public class MyActivity extends FragmentActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-//    Adding real location
+//    Adding location
 //    http://developer.android.com/training/location/retrieve-current.html
 
     /*
@@ -194,7 +190,8 @@ public class MyActivity extends FragmentActivity implements
         }
     }
 
-    private boolean servicesConnected() {
+    //clem renamed for clarity
+    private boolean isGooglePlayServicesConnected() {
         // Check that Google Play services is available
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
         // If Google Play services is available
@@ -252,6 +249,22 @@ public class MyActivity extends FragmentActivity implements
         //Clem added, log the location
         Log.i("MyActivity", mCurrentLocation.toString());
 
+        Double latDouble = mCurrentLocation.getLatitude();
+        String latString = latDouble.toString();
+        Double lonDouble = mCurrentLocation.getLongitude();
+        String lonString = lonDouble.toString();
+        String url = urlPrefix + latString + "," + lonString + urlSuffix;
+
+        //Moved here from the onStart method so it could access the correct location
+        JsonParser atomParser = new JsonParser(url);
+        atomParser.parse(new JsonParser.ParseCompleteCallback() {
+
+            public void onParseComplete(JSONObject jsonObject) {
+                List<Place> places = parsePlacesList(jsonObject);
+                adapter.setPlaces(places);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     /*
