@@ -18,6 +18,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,7 +28,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
+/*
+ * This the app's main Activity. It displays a list of nearby places.
+ */
 public class MainActivity extends FragmentActivity implements
         GooglePlayServicesClient.ConnectionCallbacks,
         GooglePlayServicesClient.OnConnectionFailedListener {
@@ -40,6 +44,9 @@ public class MainActivity extends FragmentActivity implements
     // Stores the progress bar
     private ProgressBar mActivityIndicator;
 
+    // Stores the map
+    private GoogleMap mMap;
+
     /*
      * Initialize the Activity
      */
@@ -51,6 +58,11 @@ public class MainActivity extends FragmentActivity implements
         // Get a handle for the UI objects
         mActivityIndicator = (ProgressBar) findViewById(R.id.address_progress);
         ListView listView = (ListView) findViewById(R.id.listView);
+        mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+
+        // Tweak map settings
+        mMap.setMyLocationEnabled(true);
+        mMap.getUiSettings().setZoomControlsEnabled(false);
 
         // Create a new adapter and set it as the adapter for the ListView
         adapter = new ListAdapter(this);
@@ -71,6 +83,9 @@ public class MainActivity extends FragmentActivity implements
         mLocationClient = new LocationClient(this, this, this);
     }
 
+   /*
+    * Opens up a place details activity via an intent.
+    */
     private void openItemDetails(int position) {
         Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
         Place place = (Place) adapter.getItem(position);
@@ -163,7 +178,6 @@ public class MainActivity extends FragmentActivity implements
             }
         });
     }
-
 
     /*
      * Called by getNearbyPlaces to parse the results of the Places API request.
