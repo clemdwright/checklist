@@ -13,6 +13,8 @@ public class Place extends Object {
     private Double price_level;
     private Double rating;
     private String place_id;
+    private Double latitude;
+    private Double longitude;
     private final String urlPrefix = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=";
     private final String urlSuffix = "&key=AIzaSyDSxGRYQXuA7qy3Rzcu1zILt2hAqbNcHaM";
     private String imageUrl;
@@ -52,6 +54,17 @@ public class Place extends Object {
             this.imageUrl = null;
             Log.e("Place", "Error parsing place photo from JSON");
         }
+
+        try {
+            JSONObject geometry = place.getJSONObject("geometry");
+            JSONObject location = geometry.getJSONObject("location");
+            this.latitude = location.getDouble("lat");
+            this.longitude = location.getDouble("lng");
+        } catch (Exception e) {
+            this.latitude = null;
+            this.longitude = null;
+            Log.e("Place", "Error parsing place latLng from JSON");
+        }
     }
 
 
@@ -69,6 +82,14 @@ public class Place extends Object {
 
     public Double getRating() {
         return rating;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
     }
 
     public String getImageUrl() {

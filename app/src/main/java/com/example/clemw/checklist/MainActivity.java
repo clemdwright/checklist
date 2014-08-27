@@ -73,18 +73,6 @@ public class MainActivity extends FragmentActivity implements
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(false);
 
-        // Parameters for Tartine marker
-        Double tartineLat = 37.761434;
-        Double tartineLng = -122.424175;
-        String tartineId = "ChIJdzQHqiJ-j4ARn0CHq89dtvU";
-
-        // Add test marker for Tartine
-        Marker marker = mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(tartineLat, tartineLng))
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher)));
-
-        mMarkers.put(marker, tartineId);
-
         mMap.setOnMarkerClickListener(
                 new GoogleMap.OnMarkerClickListener() {
                     @Override
@@ -221,18 +209,6 @@ public class MainActivity extends FragmentActivity implements
         });
     }
 
-    private void listNearbyPlaces(List<Place> places) {
-        adapter.setPlaces(places);
-        adapter.notifyDataSetChanged();
-    }
-
-    // This might need it's own adapter, something to be off the UI thread?
-    private void mapNearbyPlaces(List<Place> places) {
-        for (Place place : places) {
-
-        }
-    }
-
     /*
      * Called by getNearbyPlaces to parse the results of the Places API request.
      */
@@ -249,6 +225,39 @@ public class MainActivity extends FragmentActivity implements
         } catch (Exception e) {
             Log.e("JsonParser", "Error creating list from parsed JSON");
             return Collections.emptyList();
+        }
+    }
+
+    /*
+     * Uses an adapter to populate a ListView with nearby places.
+     */
+    private void listNearbyPlaces(List<Place> places) {
+        adapter.setPlaces(places);
+        adapter.notifyDataSetChanged();
+    }
+
+    /*
+     * Creates a marker for each nearby place and adds it to the map.
+     *
+     * This might need an adapter or something to move it off the main thread.
+     */
+    private void mapNearbyPlaces(List<Place> places) {
+        for (Place place : places) {
+            // Get placeId
+            String placeId = place.getPlaceId();
+
+            // Get latLng
+            Double latitude = place.getLatitude();
+            Double longitude = place.getLongitude();
+
+            // Add marker to the map
+            Marker marker = mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(latitude, longitude))
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher)));
+
+            // Add marker and placeid to hashmap for retrieving later
+            mMarkers.put(marker, placeId);
+
         }
     }
 
