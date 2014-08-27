@@ -18,6 +18,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -30,6 +31,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 /*
@@ -51,6 +53,9 @@ public class MainActivity extends FragmentActivity implements
     // Stores the map
     private GoogleMap mMap;
 
+    // Maps markers to their corresponding place ids
+    private HashMap<Marker, String> mMarkers = new HashMap();
+
     /*
      * Initialize the Activity
      */
@@ -67,16 +72,28 @@ public class MainActivity extends FragmentActivity implements
         // Tweak map settings
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(false);
-        mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(10, 10))
-                .title("Hello world")
+
+        // Parameters for Tartine marker
+        Double tartineLat = 37.761434;
+        Double tartineLng = -122.424175;
+        String tartineId = "ChIJdzQHqiJ-j4ARn0CHq89dtvU";
+
+        // Add test marker for Tartine
+        Marker marker = mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(tartineLat, tartineLng))
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher)));
+
+        mMarkers.put(marker, tartineId);
+
         mMap.setOnMarkerClickListener(
                 new GoogleMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
-                        // Do something with the marker
-                        Log.i(LocationUtils.APPTAG, marker.toString());
+                        // Get place id from marker hashmap
+                        String placeId = mMarkers.get(marker);
+                        Log.i(LocationUtils.APPTAG, "" + placeId);
+                        openItemDetails(placeId);
+
                         return true; // We've consumed the event, don't show the info window
                     }
                 }
@@ -90,7 +107,9 @@ public class MainActivity extends FragmentActivity implements
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                openItemDetails(position);
+                Place place = (Place) adapter.getItem(position);
+                String placeId = place.getPlaceId();
+                openItemDetails(placeId);
             }
         });
 
@@ -104,11 +123,9 @@ public class MainActivity extends FragmentActivity implements
    /*
     * Opens up a place details activity via an intent.
     */
-    private void openItemDetails(int position) {
+    private void openItemDetails(String placeId) {
         Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
-        Place place = (Place) adapter.getItem(position);
-        String place_id = place.getPlaceId();
-        intent.putExtra("place_id", place_id);
+        intent.putExtra("place_id", placeId);
         startActivity(intent);
     }
 
@@ -169,6 +186,12 @@ public class MainActivity extends FragmentActivity implements
 
         // Get the current location
         Location currentLocation = mLocationClient.getLastLocation();
+
+        // Get the current lat/lng
+        LatLng currentLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+
+        // Zoom map to current location
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, LocationUtils.ZOOM));
 
         // Construct the Places API request URL
         String url = LocationUtils.getPlacesApiRequest(this, currentLocation);

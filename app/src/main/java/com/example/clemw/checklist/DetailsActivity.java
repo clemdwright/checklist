@@ -72,7 +72,9 @@ public class DetailsActivity extends Activity {
     }
 
     private void populateViews(Place place) {
-        nameView.setText(place.getName());
+        String name = place.getName();
+        setTitle(name);
+        nameView.setText(name);
         Double rating = place.getRating();
         Double price_level = place.getPriceLevel();
         if (rating != null) ratingView.setText(rating.toString());

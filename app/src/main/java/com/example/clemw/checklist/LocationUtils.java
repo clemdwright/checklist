@@ -36,11 +36,15 @@ public final class LocationUtils {
     // Create an empty string for initializing strings
     public static final String EMPTY_STRING = new String();
 
+    // Set the default zoom level
+    public static final float ZOOM = 15;
+
     // Prefix and suffix for constructing the Places API request
     private static final String urlPrefix = "https://maps.googleapis.com/"
             + "maps/api/place/nearbysearch/json?location=";
     private static final String urlSuffix = "&radius=500&types=food&key="
             + "AIzaSyDSxGRYQXuA7qy3Rzcu1zILt2hAqbNcHaM";
+
 
 
     /**

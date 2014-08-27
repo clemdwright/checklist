@@ -13,6 +13,8 @@ import java.net.URL;
 
 public class JsonParser {
 
+//    private String testUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=37.760107,-122.425908&radius=500&types=food&key=AIzaSyDSxGRYQXuA7qy3Rzcu1zILt2hAqbNcHaM";
+
     private String url;
 
     public JsonParser(String url) {
