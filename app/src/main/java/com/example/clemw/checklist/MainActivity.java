@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -54,7 +56,11 @@ public class MainActivity extends FragmentActivity implements
     private GoogleMap mMap;
 
     // Maps markers to their corresponding place ids
-    private HashMap<Marker, String> mMarkers = new HashMap();
+    private HashMap<Marker, Place> mMarkers = new HashMap();
+
+    // Store the place name and summary view
+    private TextView placeName;
+    RelativeLayout summary;
 
     /*
      * Initialize the Activity
@@ -68,6 +74,10 @@ public class MainActivity extends FragmentActivity implements
         mActivityIndicator = (ProgressBar) findViewById(R.id.address_progress);
         ListView listView = (ListView) findViewById(R.id.listView);
         mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+        // Testing for place summary
+        summary = (RelativeLayout) findViewById(R.id.summary);
+        placeName = (TextView) findViewById(R.id.place_name);
+
 
         // Tweak map settings
         mMap.setMyLocationEnabled(true);
@@ -78,9 +88,10 @@ public class MainActivity extends FragmentActivity implements
                     @Override
                     public boolean onMarkerClick(Marker marker) {
                         // Get place id from marker hashmap
-                        String placeId = mMarkers.get(marker);
-                        Log.i(LocationUtils.APPTAG, "" + placeId);
-                        openItemDetails(placeId);
+                        Place place = mMarkers.get(marker);
+                        Log.i(LocationUtils.APPTAG, "" + place.getName());
+                        populatePlaceSummary(place);
+                        //        openItemDetails(place.getPlaceId());
 
                         return true; // We've consumed the event, don't show the info window
                     }
@@ -108,9 +119,15 @@ public class MainActivity extends FragmentActivity implements
         mLocationClient = new LocationClient(this, this, this);
     }
 
-   /*
-    * Opens up a place details activity via an intent.
-    */
+    private void populatePlaceSummary(Place place) {
+        placeName.setText(place.getName());
+        summary.setVisibility(View.VISIBLE);
+    }
+
+
+    /*
+     * Opens up a place details activity via an intent.
+     */
     private void openItemDetails(String placeId) {
         Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
         intent.putExtra("place_id", placeId);
@@ -253,10 +270,10 @@ public class MainActivity extends FragmentActivity implements
             // Add marker to the map
             Marker marker = mMap.addMarker(new MarkerOptions()
                     .position(new LatLng(latitude, longitude))
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher)));
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_save_marker)));
 
             // Add marker and placeid to hashmap for retrieving later
-            mMarkers.put(marker, placeId);
+            mMarkers.put(marker, place);
 
         }
     }

@@ -40,6 +40,25 @@ public class ListAdapter extends BaseAdapter {
         return 0;
     }
 
+//    //https://github.com/thecodepath/android_guides/wiki/Using-an-ArrayAdapter-with-ListView
+//    //The simpler approach to this (without view caching) is the following:
+//    @Override
+//    public View getView(int position, View convertView, ViewGroup parent) {
+//        // Get the data item for this position
+//        Place place = places.get(position);
+//        // Check if an existing view is being reused, otherwise inflate the view
+//        if (convertView == null) {
+//            convertView = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
+//        }
+//        // Lookup view for data population
+//        TextView placeName = (TextView) convertView.findViewById(R.id.place_name);
+//        // Populate the data into the template view using the data object
+//        placeName.setText(place.getName());
+//        // Return the completed view to render on screen
+//        return convertView;
+//    }
+//}
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         TextView textView;
