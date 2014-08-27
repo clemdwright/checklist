@@ -214,10 +214,23 @@ public class MainActivity extends FragmentActivity implements
                 // Turn the indefinite activity indicator off
                 mActivityIndicator.setVisibility(View.GONE);
 
-                adapter.setPlaces(places);
-                adapter.notifyDataSetChanged();
+                listNearbyPlaces(places);
+                mapNearbyPlaces(places);
+
             }
         });
+    }
+
+    private void listNearbyPlaces(List<Place> places) {
+        adapter.setPlaces(places);
+        adapter.notifyDataSetChanged();
+    }
+
+    // This might need it's own adapter, something to be off the UI thread?
+    private void mapNearbyPlaces(List<Place> places) {
+        for (Place place : places) {
+
+        }
     }
 
     /*
