@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_checked="true" android:drawable="@color/blue" /> <!-- checked -->
-    <item android:state_checked="false" android:drawable="@color/gray" /> <!-- checked -->
+    <!--<item android:state_checked="true" android:drawable="@color/blue" /> &lt;!&ndash; checked &ndash;&gt;-->
+    <!--<item android:state_checked="false" android:drawable="@color/gray" /> &lt;!&ndash; checked &ndash;&gt;-->
+    <item android:drawable="@drawable/ic_save_marker"
+        android:state_checked="true" />
+    <!-- When not selected, use gray-->
+    <item android:drawable="@drawable/ic_save_unselected"
+        android:state_checked="false"/>
 </selector>
