@@ -20,6 +20,10 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -63,6 +67,20 @@ public class MainActivity extends FragmentActivity implements
         // Tweak map settings
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(false);
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(10, 10))
+                .title("Hello world")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher)));
+        mMap.setOnMarkerClickListener(
+                new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        // Do something with the marker
+                        Log.i(LocationUtils.APPTAG, marker.toString());
+                        return true; // We've consumed the event, don't show the info window
+                    }
+                }
+        );
 
         // Create a new adapter and set it as the adapter for the ListView
         adapter = new ListAdapter(this);
