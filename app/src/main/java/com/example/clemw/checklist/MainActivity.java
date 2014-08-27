@@ -293,37 +293,39 @@ public class MainActivity extends FragmentActivity implements
         }
     }
 
-    /**
-     * Verify that Google Play services is available before making a request.
-     *
-     * @return true if Google Play services is available, otherwise false
-     */
-    private boolean servicesConnected() {
-
-        // Check that Google Play services is available
-        int resultCode =
-                GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-
-        // If Google Play services is available
-        if (ConnectionResult.SUCCESS == resultCode) {
-            // In debug mode, log the status
-            Log.d(LocationUtils.APPTAG, getString(R.string.play_services_available));
-
-            // Continue
-            return true;
-            // Google Play services was not available for some reason
-        } else {
-            // Display an error dialog
-            Dialog dialog = GooglePlayServicesUtil.getErrorDialog(resultCode, this, 0);
-            if (dialog != null) {
-                ErrorDialogFragment errorFragment = new ErrorDialogFragment();
-                errorFragment.setDialog(dialog);
-                errorFragment.show(getSupportFragmentManager(), LocationUtils.APPTAG);
-            }
-            return false;
-        }
-    }
 }
+
+//    /**
+//     * Verify that Google Play services is available before making a request.
+//     *
+//     * @return true if Google Play services is available, otherwise false
+//     */
+//    private boolean servicesConnected() {
+//
+//        // Check that Google Play services is available
+//        int resultCode =
+//                GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+//
+//        // If Google Play services is available
+//        if (ConnectionResult.SUCCESS == resultCode) {
+//            // In debug mode, log the status
+//            Log.d(LocationUtils.APPTAG, getString(R.string.play_services_available));
+//
+//            // Continue
+//            return true;
+//            // Google Play services was not available for some reason
+//        } else {
+//            // Display an error dialog
+//            Dialog dialog = GooglePlayServicesUtil.getErrorDialog(resultCode, this, 0);
+//            if (dialog != null) {
+//                ErrorDialogFragment errorFragment = new ErrorDialogFragment();
+//                errorFragment.setDialog(dialog);
+//                errorFragment.show(getSupportFragmentManager(), LocationUtils.APPTAG);
+//            }
+//            return false;
+//        }
+//    }
+//}
 
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
