@@ -4,6 +4,14 @@
     android:layout_height="match_parent"
     tools:context=".MyActivity">
 
+    <ProgressBar
+        android:id="@+id/address_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:indeterminate="true"
+        android:visibility="visible" />
+
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"

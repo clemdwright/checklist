@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -38,6 +39,9 @@ public class MainActivity extends FragmentActivity implements
     // Stores the current instantiation of the location client in this object
     private LocationClient mLocationClient;
 
+    // Stores the progress bar
+    private ProgressBar mActivityIndicator;
+
     /*
      * Initialize the Activity
      */
@@ -46,7 +50,8 @@ public class MainActivity extends FragmentActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Get a handle for the ListView object
+        // Get a handle for the UI objects
+        mActivityIndicator = (ProgressBar) findViewById(R.id.address_progress);
         ListView listView = (ListView) findViewById(R.id.listView);
 
         // Create a new adapter and set it as the adapter for the ListView
@@ -151,6 +156,10 @@ public class MainActivity extends FragmentActivity implements
 
             public void onParseComplete(JSONObject jsonObject) {
                 List<Place> places = parsePlacesList(jsonObject);
+
+                // Turn the indefinite activity indicator off
+                mActivityIndicator.setVisibility(View.GONE);
+
                 adapter.setPlaces(places);
                 adapter.notifyDataSetChanged();
             }
