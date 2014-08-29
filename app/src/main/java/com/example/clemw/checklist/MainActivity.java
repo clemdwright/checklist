@@ -55,14 +55,17 @@ public class MainActivity extends FragmentActivity implements
     // Stores the map
     private GoogleMap mMap;
 
-    //Stores the focused marker
+    // Stores the focused marker
     private Marker focusedMarker;
 
+    // Maps markers to their corresponding position in the places list
+    private HashMap<Marker, Integer> mMarkers = new HashMap();
+
     // Maps markers to their corresponding place objects
-    private HashMap<Marker, Place> mMarkerPlaceMap = new HashMap();
+//    private HashMap<Marker, Place> mMarkerPlaceMap = new HashMap();
 
     // Maps place ids to their corresponding markers
-    private HashMap<String, Marker> mPlaceIdMarkerMap = new HashMap();
+//    private HashMap<String, Marker> mPlaceIdMarkerMap = new HashMap();
 
     // Store the place name and summary view
     private TextView placeName;
@@ -89,17 +92,37 @@ public class MainActivity extends FragmentActivity implements
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(false);
 
+//        mMap.setOnMarkerClickListener(
+//                new GoogleMap.OnMarkerClickListener() {
+//                    @Override
+//                    public boolean onMarkerClick(Marker marker) {
+//                        // Get place id from marker hashmap
+//                        Place place = mMarkerPlaceMap.get(marker);
+//                        populatePlaceSummary(place);
+//                        //        openItemDetails(place.getPlaceId());
+//
+//                        // Replace the icon of a certain place (test function)
+//                        changeClickedMarker(place);
+//                        // Add the teardrop marker to show the place is focused
+//                        addFocusedMarker(marker);
+//                        return true; // We've consumed the event, don't show the info window
+//                    }
+//                }
+//        );
+
         mMap.setOnMarkerClickListener(
                 new GoogleMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
                         // Get place id from marker hashmap
-                        Place place = mMarkerPlaceMap.get(marker);
+                        Integer listPosition = mMarkers.get(marker);
+                        Place place = (Place) adapter.getItem(listPosition);
                         populatePlaceSummary(place);
                         //        openItemDetails(place.getPlaceId());
 
                         // Replace the icon of a certain place (test function)
-                        changeClickedMarker(place);
+//                        changeClickedMarker(place);
+
                         // Add the teardrop marker to show the place is focused
                         addFocusedMarker(marker);
                         return true; // We've consumed the event, don't show the info window
@@ -131,19 +154,19 @@ public class MainActivity extends FragmentActivity implements
     /*
      * Replace the icon of a certain place (test function)
      */
-    private void changeClickedMarker(Place place) {
-        String placeId = place.getPlaceId();
-        Marker oldMarker = mPlaceIdMarkerMap.get(placeId);
-        LatLng position = oldMarker.getPosition();
-        oldMarker.remove();
-        Marker newMarker = mMap.addMarker(new MarkerOptions()
-                .position(position)
-                .anchor(MapUtils.u, MapUtils.v)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_been_marker)));
-
-        mPlaceIdMarkerMap.put(placeId, newMarker);
-        mMarkerPlaceMap.put(newMarker, place);
-    }
+//    private void changeClickedMarker(Place place) {
+//        String placeId = place.getPlaceId();
+//        Marker oldMarker = mPlaceIdMarkerMap.get(placeId);
+//        LatLng position = oldMarker.getPosition();
+//        oldMarker.remove();
+//        Marker newMarker = mMap.addMarker(new MarkerOptions()
+//                .position(position)
+//                .anchor(MapUtils.u, MapUtils.v)
+//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_been_marker)));
+//
+//        mPlaceIdMarkerMap.put(placeId, newMarker);
+//        mMarkerPlaceMap.put(newMarker, place);
+//    }
 
     /*
      * Add the teardrop marker to show the place is focused
@@ -297,27 +320,27 @@ public class MainActivity extends FragmentActivity implements
      *
      * This might need an adapter or something to move it off the main thread.
      */
-    private void mapNearbyPlaces(List<Place> places) {
-        for (Place place : places) {
-            // Get placeId
-            String placeId = place.getPlaceId();
-
-            // Get latLng
-            Double latitude = place.getLatitude();
-            Double longitude = place.getLongitude();
-
-            // Add marker to the map
-            Marker marker = mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(latitude, longitude))
-                    .anchor(MapUtils.u, MapUtils.v)
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_save_marker)));
-
-            // Add marker and place to hashmaps for retrieving later
-            mMarkerPlaceMap.put(marker, place);
-            mPlaceIdMarkerMap.put(placeId, marker);
-
-        }
-    }
+//    private void mapNearbyPlaces(List<Place> places) {
+//        for (Place place : places) {
+//            // Get placeId
+//            String placeId = place.getPlaceId();
+//
+//            // Get latLng
+//            Double latitude = place.getLatitude();
+//            Double longitude = place.getLongitude();
+//
+//            // Add marker to the map
+//            Marker marker = mMap.addMarker(new MarkerOptions()
+//                    .position(new LatLng(latitude, longitude))
+//                    .anchor(MapUtils.u, MapUtils.v)
+//                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_save_marker)));
+//
+//            // Add marker and place to hashmaps for retrieving later
+//            mMarkers.put(marker, place);
+////            mPlaceIdMarkerMap.put(placeId, marker);
+//
+//        }
+//    }
 
     /*
      * Called by Location Services if the connection to the

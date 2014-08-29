@@ -6,6 +6,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,5 +88,42 @@ public class ListAdapter extends BaseAdapter {
             notifyDataSetChanged();
         }
         return textView;
+    }
+
+    public void addMarkersToMap() {
+        for (int i = 0; i < places.size(); i++) {
+            Place place = places.get(i);
+
+            // Get latLng
+            LatLng position = place.getPosition();
+
+            // Add marker to the map
+            Marker marker = mMap.addMarker(new MarkerOptions()
+                    .position(position)
+                    .anchor(MapUtils.u, MapUtils.v)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_save_marker)));
+        }
+    }
+
+    private void mapNearbyPlaces(List<Place> places) {
+        for (Place place : places) {
+            // Get placeId
+            String placeId = place.getPlaceId();
+
+            // Get latLng
+            Double latitude = place.getLatitude();
+            Double longitude = place.getLongitude();
+
+            // Add marker to the map
+            Marker marker = mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(latitude, longitude))
+                    .anchor(MapUtils.u, MapUtils.v)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_save_marker)));
+
+            // Add marker and place to hashmaps for retrieving later
+            mMarkers.put(marker, place);
+//            mPlaceIdMarkerMap.put(placeId, marker);
+
+        }
     }
 }

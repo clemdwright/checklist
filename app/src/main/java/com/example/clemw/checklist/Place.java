@@ -2,6 +2,8 @@ package com.example.clemw.checklist;
 
 import android.util.Log;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -18,6 +20,7 @@ public class Place extends Object {
     private final String urlPrefix = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=";
     private final String urlSuffix = "&key=AIzaSyDSxGRYQXuA7qy3Rzcu1zILt2hAqbNcHaM";
     private String imageUrl;
+    private LatLng position;
 //    private Boolean been = false;
 
     public Place(JSONObject place) {
@@ -65,6 +68,9 @@ public class Place extends Object {
             this.longitude = null;
             Log.e("Place", "Error parsing place latLng from JSON");
         }
+
+        this.position = new LatLng(this.latitude, this.longitude);
+
     }
 
 
@@ -84,13 +90,17 @@ public class Place extends Object {
         return rating;
     }
 
-    public Double getLatitude() {
-        return latitude;
+    public LatLng getPosition() {
+        return this.position;
     }
 
-    public Double getLongitude() {
-        return longitude;
-    }
+//    public Double getLatitude() {
+//        return latitude;
+//    }
+//
+//    public Double getLongitude() {
+//        return longitude;
+//    }
 
     public String getImageUrl() {
         return imageUrl;
