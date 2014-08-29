@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
@@ -65,6 +66,7 @@ public class MainActivity extends FragmentActivity implements
     // Store the place name and summary view
     private TextView placeName;
     RelativeLayout summary;
+    private ToggleButton beenButton;
 
     /*
      * Initialize the Activity
@@ -81,38 +83,19 @@ public class MainActivity extends FragmentActivity implements
         // Testing for place summary
         summary = (RelativeLayout) findViewById(R.id.summary);
         placeName = (TextView) findViewById(R.id.place_name);
+        beenButton = (ToggleButton) findViewById(R.id.been);
 
 
         // Tweak map settings
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(false);
 
-//        mMap.setOnMarkerClickListener(
-//                new GoogleMap.OnMarkerClickListener() {
-//                    @Override
-//                    public boolean onMarkerClick(Marker marker) {
-//                        // Get place id from marker hashmap
-//                        Place place = mMarkerPlaceMap.get(marker);
-//                        populatePlaceSummary(place);
-//                        //        openItemDetails(place.getPlaceId());
-//
-//                        // Replace the icon of a certain place (test function)
-//                        changeClickedMarker(place);
-//                        // Add the teardrop marker to show the place is focused
-//                        addFocusedMarker(marker);
-//                        return true; // We've consumed the event, don't show the info window
-//                    }
-//                }
-//        );
-
         mMap.setOnMarkerClickListener(
                 new GoogleMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
-                        // Get place id from marker hashmap
-//                        Integer listPosition = mMarkers.get(marker);
-                        Integer listPosition = adapter.getPosition(marker);
-                        Place place = (Place) adapter.getItem(listPosition);
+                        int index = adapter.getIndex(marker);
+                        Place place = (Place) adapter.getItem(index);
                         populatePlaceSummary(place);
                         //        openItemDetails(place.getPlaceId());
 
@@ -133,8 +116,8 @@ public class MainActivity extends FragmentActivity implements
         // Set a click listener for the list items
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Place place = (Place) adapter.getItem(position);
+            public void onItemClick(AdapterView<?> parent, View v, int index, long id) {
+                Place place = (Place) adapter.getItem(index);
                 String placeId = place.getPlaceId();
                 openItemDetails(placeId);
             }
@@ -180,6 +163,8 @@ public class MainActivity extends FragmentActivity implements
      */
     private void populatePlaceSummary(Place place) {
         placeName.setText(place.getName());
+        beenButton.setChecked(place.getBeen());
+//        Message.message(this, place.getBeen().toString());
         summary.setVisibility(View.VISIBLE);
     }
 
@@ -302,60 +287,6 @@ public class MainActivity extends FragmentActivity implements
             return Collections.emptyList();
         }
     }
-
-    /*
-     * Uses an adapter to populate a ListView with nearby places.
-     */
-//    private void listNearbyPlaces(List<Place> places) {
-//        adapter.setPlaces(places);
-//        adapter.notifyDataSetChanged();
-//    }
-
-//    private void mapNearbyPlaces() {
-//        for (Place place : places) {
-//            // Get placeId
-//            String placeId = place.getPlaceId();
-//            LatLng position = place.getPosition();
-//
-//            // Add marker to the map
-//            Marker marker = mMap.addMarker(new MarkerOptions()
-//                    .position(position)
-//                    .anchor(MapUtils.u, MapUtils.v)
-//                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_save_marker)));
-//
-//            // Add marker and place to hashmaps for retrieving later
-//            mMarkers.put(marker, place);
-////            mPlaceIdMarkerMap.put(placeId, marker);
-//
-//        }
-//    }
-
-    /*
-     * Creates a marker for each nearby place and adds it to the map.
-     *
-     * This might need an adapter or something to move it off the main thread.
-     */
-//    private void mapNearbyPlaces(List<Place> places) {
-//        for (Place place : places) {
-//            // Get placeId
-//            String placeId = place.getPlaceId();
-//
-//            // Get latLng
-//            Double latitude = place.getLatitude();
-//            Double longitude = place.getLongitude();
-//
-//            // Add marker to the map
-//            Marker marker = mMap.addMarker(new MarkerOptions()
-//                    .position(new LatLng(latitude, longitude))
-//                    .anchor(MapUtils.u, MapUtils.v)
-//                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_save_marker)));
-//
-//            // Add marker and place to hashmaps for retrieving later
-//            mMarkers.put(marker, place);
-////            mPlaceIdMarkerMap.put(placeId, marker);
-//
-//        }
-//    }
 
     /*
      * Called by Location Services if the connection to the

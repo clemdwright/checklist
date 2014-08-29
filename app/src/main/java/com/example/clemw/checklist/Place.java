@@ -21,7 +21,7 @@ public class Place extends Object {
     private final String urlSuffix = "&key=AIzaSyDSxGRYQXuA7qy3Rzcu1zILt2hAqbNcHaM";
     private String imageUrl;
     private LatLng position;
-//    private Boolean been = false;
+    private Boolean been = false;
 
     public Place(JSONObject place) {
         try {
@@ -106,11 +106,11 @@ public class Place extends Object {
         return imageUrl;
     }
 //
-//    public void setBeen(Boolean been) {
-//        this.been = been;
-//    }
-//
-//    public Boolean getBeen() {
-//        return this.been;
-//    }
+    public void setBeen(Boolean been) {
+        this.been = been;
+    }
+
+    public Boolean getBeen() {
+        return this.been;
+    }
 }
