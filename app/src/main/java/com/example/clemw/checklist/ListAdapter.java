@@ -6,25 +6,35 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ListAdapter extends BaseAdapter {
 
     private final Context context;
     private List<Place> places = new ArrayList<Place>();
+    // Maps markers to their corresponding position in the places list
+    private HashMap<Marker, Integer> mMarkers = new HashMap();
+    // Stores the map
+//    private GoogleMap mMap;
 
     public ListAdapter(Context c) {
         context = c;
     }
 
-    public void setPlaces(List<Place> placeNames) {
-        this.places = placeNames;
+    public void setPlaces(List<Place> places) {
+        this.places = places;
+    }
+
+    public int getPosition(Marker marker) {
+        return mMarkers.get(marker);
     }
 
     @Override
@@ -90,7 +100,7 @@ public class ListAdapter extends BaseAdapter {
         return textView;
     }
 
-    public void addMarkersToMap() {
+    public void mapPlaces(GoogleMap map) {
         for (int i = 0; i < places.size(); i++) {
             Place place = places.get(i);
 
@@ -98,32 +108,37 @@ public class ListAdapter extends BaseAdapter {
             LatLng position = place.getPosition();
 
             // Add marker to the map
-            Marker marker = mMap.addMarker(new MarkerOptions()
+            Marker marker = map.addMarker(new MarkerOptions()
                     .position(position)
                     .anchor(MapUtils.u, MapUtils.v)
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_save_marker)));
+
+            mMarkers.put(marker, i);
         }
     }
 
-    private void mapNearbyPlaces(List<Place> places) {
-        for (Place place : places) {
-            // Get placeId
-            String placeId = place.getPlaceId();
 
-            // Get latLng
-            Double latitude = place.getLatitude();
-            Double longitude = place.getLongitude();
-
-            // Add marker to the map
-            Marker marker = mMap.addMarker(new MarkerOptions()
-                    .position(new LatLng(latitude, longitude))
-                    .anchor(MapUtils.u, MapUtils.v)
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_save_marker)));
-
-            // Add marker and place to hashmaps for retrieving later
-            mMarkers.put(marker, place);
-//            mPlaceIdMarkerMap.put(placeId, marker);
-
-        }
-    }
 }
+//
+//    private void mapNearbyPlaces(List<Place> places) {
+//        for (Place place : places) {
+//            // Get placeId
+//            String placeId = place.getPlaceId();
+//
+//            // Get latLng
+//            Double latitude = place.getLatitude();
+//            Double longitude = place.getLongitude();
+//
+//            // Add marker to the map
+//            Marker marker = mMap.addMarker(new MarkerOptions()
+//                    .position(new LatLng(latitude, longitude))
+//                    .anchor(MapUtils.u, MapUtils.v)
+//                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_save_marker)));
+//
+//            // Add marker and place to hashmaps for retrieving later
+//            mMarkers.put(marker, place);
+////            mPlaceIdMarkerMap.put(placeId, marker);
+//
+//        }
+//    }
+//}

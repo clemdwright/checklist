@@ -23,7 +23,6 @@ import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -33,7 +32,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 /*
@@ -57,9 +55,6 @@ public class MainActivity extends FragmentActivity implements
 
     // Stores the focused marker
     private Marker focusedMarker;
-
-    // Maps markers to their corresponding position in the places list
-    private HashMap<Marker, Integer> mMarkers = new HashMap();
 
     // Maps markers to their corresponding place objects
 //    private HashMap<Marker, Place> mMarkerPlaceMap = new HashMap();
@@ -115,7 +110,8 @@ public class MainActivity extends FragmentActivity implements
                     @Override
                     public boolean onMarkerClick(Marker marker) {
                         // Get place id from marker hashmap
-                        Integer listPosition = mMarkers.get(marker);
+//                        Integer listPosition = mMarkers.get(marker);
+                        Integer listPosition = adapter.getPosition(marker);
                         Place place = (Place) adapter.getItem(listPosition);
                         populatePlaceSummary(place);
                         //        openItemDetails(place.getPlaceId());
@@ -281,9 +277,9 @@ public class MainActivity extends FragmentActivity implements
                 // Turn the indefinite activity indicator off
                 mActivityIndicator.setVisibility(View.GONE);
 
-                listNearbyPlaces(places);
-                mapNearbyPlaces(places);
-
+                adapter.setPlaces(places);
+                adapter.mapPlaces(mMap);
+                adapter.notifyDataSetChanged();
             }
         });
     }
@@ -310,10 +306,29 @@ public class MainActivity extends FragmentActivity implements
     /*
      * Uses an adapter to populate a ListView with nearby places.
      */
-    private void listNearbyPlaces(List<Place> places) {
-        adapter.setPlaces(places);
-        adapter.notifyDataSetChanged();
-    }
+//    private void listNearbyPlaces(List<Place> places) {
+//        adapter.setPlaces(places);
+//        adapter.notifyDataSetChanged();
+//    }
+
+//    private void mapNearbyPlaces() {
+//        for (Place place : places) {
+//            // Get placeId
+//            String placeId = place.getPlaceId();
+//            LatLng position = place.getPosition();
+//
+//            // Add marker to the map
+//            Marker marker = mMap.addMarker(new MarkerOptions()
+//                    .position(position)
+//                    .anchor(MapUtils.u, MapUtils.v)
+//                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_save_marker)));
+//
+//            // Add marker and place to hashmaps for retrieving later
+//            mMarkers.put(marker, place);
+////            mPlaceIdMarkerMap.put(placeId, marker);
+//
+//        }
+//    }
 
     /*
      * Creates a marker for each nearby place and adds it to the map.
