@@ -43,7 +43,7 @@ public class MainActivity extends FragmentActivity implements
         GooglePlayServicesClient.OnConnectionFailedListener {
 
     // Adapter for the list of nearby places
-    private ListAdapter adapter;
+    private PlacesAdapter adapter;
 
     // Stores the current instantiation of the location client in this object
     private LocationClient mLocationClient;
@@ -110,7 +110,7 @@ public class MainActivity extends FragmentActivity implements
         );
 
         // Create a new adapter and set it as the adapter for the ListView
-        adapter = new ListAdapter(this);
+        adapter = new PlacesAdapter(this);
         listView.setAdapter(adapter);
 
         // Set a click listener for the list items
