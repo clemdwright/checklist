@@ -13,10 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
@@ -39,76 +36,10 @@ public class MainActivity extends FragmentActivity implements
         GooglePlayServicesClient.OnConnectionFailedListener,
         Communicator {
 
-    // Adapter for the list of nearby places
     private PlacesAdapter adapter;
-
-    // Stores the current instantiation of the location client in this object
     private LocationClient mLocationClient;
-
-    // Stores the progress bar
     private ProgressBar mActivityIndicator;
-
-    // Stores a communicator
     Communicator communicator;
-
-    // Maps markers to their corresponding place objects
-//    private HashMap<Marker, Place> mMarkerPlaceMap = new HashMap();
-
-    // Maps place ids to their corresponding markers
-//    private HashMap<String, Marker> mPlaceIdMarkerMap = new HashMap();
-
-    // Store the place name and summary view
-    private TextView placeName;
-    RelativeLayout summary;
-    private ToggleButton beenButton;
-
-
-    @Override
-    public void passBeenMarkerState(Boolean isChecked, int placeIndex) {
-        FragmentManager fragmentManager = getFragmentManager();
-        CustomMap customMap = (CustomMap) fragmentManager.findFragmentById(R.id.map);
-//        customMap.updateMarker(isChecked, placeIndex);
-
-//
-//
-//        Place place = (Place) adapter.getItem(placeIndex);
-//
-//        place.setBeen(isChecked);
-//
-//        //  get the marker for the current place from the hashmap
-//        Marker oldMarker = adapter.getMarker(placeIndex);
-//        //  get the position for the current marker
-//        LatLng position = oldMarker.getPosition();
-//        //  remove the old marker
-//        oldMarker.remove();
-//        //  add the new marker
-//
-//        if (isChecked == true) {
-//            adapter.addNewMarker(mMap, position, R.drawable.ic_been_marker, placeIndex);
-//        } else {
-//            adapter.addNewMarker(mMap, position, R.drawable.ic_unrated_marker, placeIndex);
-//        }
-//
-//        focusedMarker.remove();
-//        addFocusedMarker(position);
-//    }
-    }
-
-    @Override
-    public void passPlaceIndex(int placeIndex) {
-        FragmentManager fragmentManager = getFragmentManager();
-        DetailsFragment detailsFragment = (DetailsFragment) fragmentManager.findFragmentById(R.id.details);
-        Place place = (Place) adapter.getItem(placeIndex);
-        detailsFragment.setPlace(placeIndex, place);
-    }
-
-    @Override
-    public void passCurrentLocation(LatLng currentLocation) {
-        FragmentManager fragmentManager = getFragmentManager();
-        CustomMap customMap = (CustomMap) fragmentManager.findFragmentById(R.id.map);
-        customMap.setLocation(currentLocation);
-    }
-
 
     /*
      * Initialize the Activity
@@ -124,38 +55,6 @@ public class MainActivity extends FragmentActivity implements
         // Get a handle for the UI objects
         mActivityIndicator = (ProgressBar) findViewById(R.id.address_progress);
         ListView listView = (ListView) findViewById(R.id.listView);
-//        mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-        // Testing for place summary
-//        summary = (RelativeLayout) findViewById(R.id.summary);
-        placeName = (TextView) findViewById(R.id.place_name);
-        beenButton = (ToggleButton) findViewById(R.id.been);
-
-
-        // Tweak map settings
-//        mMap.setMyLocationEnabled(true);
-//        mMap.getUiSettings().setZoomControlsEnabled(false);
-//
-//        mMap.setOnMarkerClickListener(
-//                new GoogleMap.OnMarkerClickListener() {
-//                    @Override
-//                    public boolean onMarkerClick(Marker marker) {
-//                        int index = adapter.getIndex(marker);
-////                        Place place = (Place) adapter.getItem(index);
-//
-//                        communicator.passPlaceIndex(index);
-//
-////                        populatePlaceSummary(place);
-//                        //        openItemDetails(place.getPlaceId());
-//
-//                        // Replace the icon of a certain place (test function)
-////                        changeClickedMarker(place);
-//
-//                        // Add the teardrop marker to show the place is focused
-//                        addFocusedMarker(marker.getPosition());
-//                        return true; // We've consumed the event, don't show the info window
-//                    }
-//                }
-//        );
 
         // Create a new adapter and set it as the adapter for the ListView
         adapter = new PlacesAdapter(this);
@@ -270,15 +169,24 @@ public class MainActivity extends FragmentActivity implements
 
             public void onParseComplete(JSONObject jsonObject) {
                 List<Place> places = parsePlacesList(jsonObject);
-
                 // Turn the indefinite activity indicator off
                 mActivityIndicator.setVisibility(View.GONE);
 
                 adapter.setPlaces(places);
 //                adapter.mapPlaces(mMap);
                 adapter.notifyDataSetChanged();
+
+//                communicator.passPlaces(places);
             }
         });
+    }
+
+    @Override
+    public void passPlaces(List<Place> places) {
+//
+//        adapter.setPlaces(places);
+////        adapter.mapPlaces(mMap);
+//        adapter.notifyDataSetChanged();
     }
 
     /*
@@ -409,7 +317,54 @@ public class MainActivity extends FragmentActivity implements
         }
     }
 
+    @Override
+    public void passBeenMarkerState(Boolean isChecked, int placeIndex) {
+        FragmentManager fragmentManager = getFragmentManager();
+        CustomMap customMap = (CustomMap) fragmentManager.findFragmentById(R.id.map);
+//        customMap.updateMarker(isChecked, placeIndex);
+
+//
+//
+//        Place place = (Place) adapter.getItem(placeIndex);
+//
+//        place.setBeen(isChecked);
+//
+//        //  get the marker for the current place from the hashmap
+//        Marker oldMarker = adapter.getMarker(placeIndex);
+//        //  get the position for the current marker
+//        LatLng position = oldMarker.getPosition();
+//        //  remove the old marker
+//        oldMarker.remove();
+//        //  add the new marker
+//
+//        if (isChecked == true) {
+//            adapter.addNewMarker(mMap, position, R.drawable.ic_been_marker, placeIndex);
+//        } else {
+//            adapter.addNewMarker(mMap, position, R.drawable.ic_unrated_marker, placeIndex);
+//        }
+//
+//        focusedMarker.remove();
+//        addFocusedMarker(position);
+//    }
+    }
+
+    @Override
+    public void passPlaceIndex(int placeIndex) {
+        FragmentManager fragmentManager = getFragmentManager();
+        DetailsFragment detailsFragment = (DetailsFragment) fragmentManager.findFragmentById(R.id.details);
+        Place place = (Place) adapter.getItem(placeIndex);
+        detailsFragment.setPlace(placeIndex, place);
+    }
+
+    @Override
+    public void passCurrentLocation(LatLng currentLocation) {
+        FragmentManager fragmentManager = getFragmentManager();
+        CustomMap customMap = (CustomMap) fragmentManager.findFragmentById(R.id.map);
+        customMap.setLocation(currentLocation);
+    }
+
 }
+
 
 //    /**
 //     * Verify that Google Play services is available before making a request.
