@@ -267,7 +267,8 @@ public class MainActivity extends FragmentActivity implements
         LatLng currentLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
 
         // Zoom map to current location
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, MapUtils.ZOOM));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, MapUtils.ZOOM));
+//        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, MapUtils.ZOOM));
 
         // Construct the Places API request URL
         String url = LocationUtils.getPlacesApiRequest(this, currentLocation);
