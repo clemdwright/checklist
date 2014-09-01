@@ -2,6 +2,7 @@ package com.example.clemw.checklist;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.location.Location;
@@ -40,7 +41,8 @@ import java.util.List;
  */
 public class MainActivity extends FragmentActivity implements
         GooglePlayServicesClient.ConnectionCallbacks,
-        GooglePlayServicesClient.OnConnectionFailedListener {
+        GooglePlayServicesClient.OnConnectionFailedListener,
+        Communicator {
 
     // Adapter for the list of nearby places
     private PlacesAdapter adapter;
@@ -68,6 +70,14 @@ public class MainActivity extends FragmentActivity implements
     RelativeLayout summary;
     private ToggleButton beenButton;
 
+
+    @Override
+    public void respond(String data) {
+        FragmentManager fragmentManager = getFragmentManager();
+        DetailsFragment detailsFragment = (DetailsFragment) fragmentManager.findFragmentById(R.id.details);
+        detailsFragment.changeText(data);
+    }
+
     /*
      * Initialize the Activity
      */
@@ -81,7 +91,7 @@ public class MainActivity extends FragmentActivity implements
         ListView listView = (ListView) findViewById(R.id.listView);
         mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         // Testing for place summary
-        summary = (RelativeLayout) findViewById(R.id.summary);
+//        summary = (RelativeLayout) findViewById(R.id.summary);
         placeName = (TextView) findViewById(R.id.place_name);
         beenButton = (ToggleButton) findViewById(R.id.been);
 

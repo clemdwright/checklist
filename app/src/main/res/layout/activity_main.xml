@@ -15,8 +15,19 @@
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="200dp"
         android:name="com.google.android.gms.maps.MapFragment" />
+
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:name="com.example.clemw.checklist.DetailsFragment"
+        android:id="@+id/details"
+        android:layout_alignBottom="@id/map"
+        android:background="@color/blue" />
+
+
+    <!--
 
     <RelativeLayout
         android:visibility="gone"
@@ -35,7 +46,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"/>
+            android:layout_marginStart="@dimen/activity_horizontal_margin" />
 
         <LinearLayout
             android:id="@+id/toggle_buttons"
@@ -45,41 +56,38 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true">
 
-                <ToggleButton
-                    android:visibility="gone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/love"
-                    android:textOff="!love"
-                    android:textOn="love"
-                    android:background="@drawable/love_toggle" />
+            <ToggleButton
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/love"
+                android:textOff="!love"
+                android:textOn="love"
+                android:background="@drawable/love_toggle" />
 
-                <ToggleButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/save"
-                    android:textOff="!save"
-                    android:textOn="save"
-                    android:background="@drawable/save_toggle" />
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/save"
+                android:textOff="!save"
+                android:textOn="save"
+                android:background="@drawable/save_toggle" />
 
-                <ToggleButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/been"
-                    android:textOff="!been"
-                    android:textOn="been"
-                    android:layout_marginStart="@dimen/activity_horizontal_margin"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:background="@drawable/been_toggle" />
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/been"
+                android:textOff="!been"
+                android:textOn="been"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:background="@drawable/been_toggle" />
 
             <LinearLayout
                 android:id="@+id/bottom_toggle_buttons"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-
-
+                android:orientation="horizontal">
 
 
             </LinearLayout>
@@ -88,11 +96,14 @@
 
     </RelativeLayout>
 
+-->
+
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone">
-    </ListView>
+        android:visibility="gone"></ListView>
+
+
 
 </RelativeLayout>
