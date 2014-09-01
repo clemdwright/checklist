@@ -112,13 +112,28 @@ public class PlacesAdapter extends BaseAdapter {
             // Get latLng
             LatLng position = place.getPosition();
 
-            // Add marker to the map
-            Marker marker = map.addMarker(new MarkerOptions()
-                    .position(position)
-                    .anchor(MapUtils.u, MapUtils.v)
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_unrated_marker)));
+            addNewMarker(map, position, R.drawable.ic_unrated_marker, i);
 
-            mMarkers.put(marker, i);
+            // Add marker to the map
+//            Marker marker = map.addMarker(new MarkerOptions()
+//                    .position(position)
+//                    .anchor(MapUtils.u, MapUtils.v)
+//                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_unrated_marker)));
+//
+//            mMarkers.put(marker, i);
+//            mIndexToMarkerMap.put(i, marker);
         }
+    }
+
+    public void addNewMarker(GoogleMap map, LatLng position, int drawableId, int index) {
+
+        // Add marker to the map
+        Marker marker = map.addMarker(new MarkerOptions()
+                .position(position)
+                .anchor(MapUtils.u, MapUtils.v)
+                .icon(BitmapDescriptorFactory.fromResource(drawableId)));
+
+        mMarkers.put(marker, index);
+        mIndexToMarkerMap.put(index, marker);
     }
 }

@@ -12,7 +12,7 @@ import android.widget.ToggleButton;
 public class DetailsFragment extends Fragment {
     int placeIndex;
     Place place;
-    TextView textView;
+    TextView placeName;
     ToggleButton beenButton;
     Communicator communicator;
 
@@ -29,41 +29,35 @@ public class DetailsFragment extends Fragment {
         // communicator is pointing to the Main Activity
         communicator = (Communicator) getActivity();
 
-        textView = (TextView) getActivity().findViewById(R.id.place_name);
+        placeName = (TextView) getActivity().findViewById(R.id.place_name);
         beenButton = (ToggleButton) getActivity().findViewById(R.id.been);
 
         beenButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-
                     communicator.passBeenMarkerState(true, placeIndex);
-
-
-
-                    // The toggle is enabled
-//                    save.setVisibility(View.GONE);
-//                    love.setVisibility(View.VISIBLE);
-//                    save.setChecked(false);
                 } else {
-
-
                     communicator.passBeenMarkerState(false, placeIndex);
-
-                    // The toggle is disabled
-//                    save.setVisibility(View.VISIBLE);
-//                    love.setVisibility(View.GONE);
                 }
             }
         });
     }
 
-    public void setPlace(int placeIndex, PlacesAdapter adapter) {
+    public void setPlace(int placeIndex, Place place) {
         this.placeIndex = placeIndex;
-        this.place = (Place) adapter.getItem(placeIndex);
+        this.place = place;
+        placeName.setText(place.getName());
+        beenButton.setChecked(place.getBeen());
+//        this.place = (Place) adapter.getItem(placeIndex);
     }
 
+//    public void setPlace(int placeIndex, PlacesAdapter adapter) {
+//        this.placeIndex = placeIndex;
+////        this.place = (Place) adapter.getItem(placeIndex);
+//    }
+
     public void changeText(String data) {
-        textView.setText(data);
+        placeName.setText(place.getName());
     }
 }
 

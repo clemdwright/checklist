@@ -25,7 +25,6 @@ import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -82,6 +81,9 @@ public class MainActivity extends FragmentActivity implements
 //        detailsFragment.changeText(data);
 
         Place place = (Place) adapter.getItem(placeIndex);
+
+        place.setBeen(isChecked);
+
         //  get the marker for the current place from the hashmap
         Marker oldMarker = adapter.getMarker(placeIndex);
         //  get the position for the current marker
@@ -91,16 +93,13 @@ public class MainActivity extends FragmentActivity implements
         //  add the new marker
 
         if (isChecked == true) {
-            Marker newMarker = mMap.addMarker(new MarkerOptions()
-                    .position(position)
-                    .anchor(MapUtils.u, MapUtils.v)
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_been_marker)));
+            adapter.addNewMarker(mMap, position, R.drawable.ic_been_marker, placeIndex);
         } else {
-            Marker newMarker = mMap.addMarker(new MarkerOptions()
-                    .position(position)
-                    .anchor(MapUtils.u, MapUtils.v)
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_unrated_marker))); // this won't hold if has been previously saved
+            adapter.addNewMarker(mMap, position, R.drawable.ic_unrated_marker, placeIndex);
         }
+
+        focusedMarker.remove();
+        addFocusedMarker(position);
 
 
         //  put the new marker in the hashmap
@@ -122,10 +121,11 @@ public class MainActivity extends FragmentActivity implements
     }
 
     @Override
-    public void passPlace(int placeIndex) {
+    public void passPlaceIndex(int placeIndex) {
         FragmentManager fragmentManager = getFragmentManager();
         DetailsFragment detailsFragment = (DetailsFragment) fragmentManager.findFragmentById(R.id.details);
-        detailsFragment.setPlace(placeIndex, adapter); // doubt it's good to pass the adapter around. damnit. maybe pass the index and the place?
+        Place place = (Place) adapter.getItem(placeIndex);
+        detailsFragment.setPlace(placeIndex, place); // doubt it's good to pass the adapter around. damnit. maybe pass the index and the place?
     }
 
     /*
@@ -160,7 +160,7 @@ public class MainActivity extends FragmentActivity implements
                         int index = adapter.getIndex(marker);
 //                        Place place = (Place) adapter.getItem(index);
 
-                        communicator.passPlace(index);
+                        communicator.passPlaceIndex(index);
 
 //                        populatePlaceSummary(place);
                         //        openItemDetails(place.getPlaceId());
@@ -169,7 +169,7 @@ public class MainActivity extends FragmentActivity implements
 //                        changeClickedMarker(place);
 
                         // Add the teardrop marker to show the place is focused
-                        addFocusedMarker(marker);
+                        addFocusedMarker(marker.getPosition());
                         return true; // We've consumed the event, don't show the info window
                     }
                 }
@@ -216,12 +216,12 @@ public class MainActivity extends FragmentActivity implements
     /*
      * Add the teardrop marker to show the place is focused
      */
-    private void addFocusedMarker(Marker marker) {
+    private void addFocusedMarker(LatLng position) {
         if (focusedMarker != null) {
             focusedMarker.remove();
         }
         focusedMarker = mMap.addMarker(new MarkerOptions()
-                .position(marker.getPosition()));
+                .position(position));
     }
 
     /*
