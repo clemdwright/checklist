@@ -163,8 +163,10 @@ public class MainActivity extends FragmentActivity implements
                 // Turn the indefinite activity indicator off
                 mActivityIndicator.setVisibility(View.GONE);
 
+
+//                CustomMap.mapPlaces(places);
                 adapter.setPlaces(places);
-//                adapter.mapPlaces(mMap);
+                adapter.mapPlaces();
                 adapter.notifyDataSetChanged();
 
 //                communicator.passPlaces(places);
