@@ -105,29 +105,21 @@ public class PlacesAdapter extends BaseAdapter {
         return textView;
     }
 
+    // Maybe this should not be in the adapter? Though I guess it means the places are all the same, drawn from the same as the arraylist
+    // I just really don't like passing the map around
+    // Maybe there's a way to have the map in a fragment or something... murr
     public void mapPlaces(GoogleMap map) {
         for (int i = 0; i < places.size(); i++) {
             Place place = places.get(i);
 
             // Get latLng
             LatLng position = place.getPosition();
-
+            // Add each marker to map, ugly
             addNewMarker(map, position, R.drawable.ic_unrated_marker, i);
-
-            // Add marker to the map
-//            Marker marker = map.addMarker(new MarkerOptions()
-//                    .position(position)
-//                    .anchor(MapUtils.u, MapUtils.v)
-//                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_unrated_marker)));
-//
-//            mMarkers.put(marker, i);
-//            mIndexToMarkerMap.put(i, marker);
         }
     }
 
     public void addNewMarker(GoogleMap map, LatLng position, int drawableId, int index) {
-
-        // Add marker to the map
         Marker marker = map.addMarker(new MarkerOptions()
                 .position(position)
                 .anchor(MapUtils.u, MapUtils.v)

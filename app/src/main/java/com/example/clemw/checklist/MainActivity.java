@@ -76,10 +76,6 @@ public class MainActivity extends FragmentActivity implements
 
     @Override
     public void passBeenMarkerState(Boolean isChecked, int placeIndex) {
-//        FragmentManager fragmentManager = getFragmentManager();
-//        DetailsFragment detailsFragment = (DetailsFragment) fragmentManager.findFragmentById(R.id.details);
-//        detailsFragment.changeText(data);
-
         Place place = (Place) adapter.getItem(placeIndex);
 
         place.setBeen(isChecked);
@@ -100,23 +96,6 @@ public class MainActivity extends FragmentActivity implements
 
         focusedMarker.remove();
         addFocusedMarker(position);
-
-
-        //  put the new marker in the hashmap
-
-
-        //    private void changeClickedMarker(Place place) {
-//        String placeId = place.getPlaceId();
-//        Marker oldMarker = mPlaceIdMarkerMap.get(placeId);
-//        LatLng position = oldMarker.getPosition();
-//        oldMarker.remove();
-//        Marker newMarker = mMap.addMarker(new MarkerOptions()
-//                .position(position)
-//                .anchor(MapUtils.u, MapUtils.v)
-//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_been_marker)));
-//
-//        mPlaceIdMarkerMap.put(placeId, newMarker);
-//        mMarkerPlaceMap.put(newMarker, place);
 //    }
     }
 
@@ -125,7 +104,7 @@ public class MainActivity extends FragmentActivity implements
         FragmentManager fragmentManager = getFragmentManager();
         DetailsFragment detailsFragment = (DetailsFragment) fragmentManager.findFragmentById(R.id.details);
         Place place = (Place) adapter.getItem(placeIndex);
-        detailsFragment.setPlace(placeIndex, place); // doubt it's good to pass the adapter around. damnit. maybe pass the index and the place?
+        detailsFragment.setPlace(placeIndex, place);
     }
 
     /*
@@ -195,23 +174,6 @@ public class MainActivity extends FragmentActivity implements
          */
         mLocationClient = new LocationClient(this, this, this);
     }
-
-    /*
-     * Replace the icon of a certain place (test function)
-     */
-//    private void changeClickedMarker(Place place) {
-//        String placeId = place.getPlaceId();
-//        Marker oldMarker = mPlaceIdMarkerMap.get(placeId);
-//        LatLng position = oldMarker.getPosition();
-//        oldMarker.remove();
-//        Marker newMarker = mMap.addMarker(new MarkerOptions()
-//                .position(position)
-//                .anchor(MapUtils.u, MapUtils.v)
-//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_been_marker)));
-//
-//        mPlaceIdMarkerMap.put(placeId, newMarker);
-//        mMarkerPlaceMap.put(newMarker, place);
-//    }
 
     /*
      * Add the teardrop marker to show the place is focused
