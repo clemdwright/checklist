@@ -23,6 +23,8 @@ public class PlacesAdapter extends BaseAdapter {
     // Maps markers to their corresponding index in the places list
     private HashMap<Marker, Integer> mMarkers = new HashMap();
 
+    private HashMap<Integer, Marker> mIndexToMarkerMap = new HashMap();
+
     public PlacesAdapter(Context c) {
         context = c;
     }
@@ -34,6 +36,8 @@ public class PlacesAdapter extends BaseAdapter {
     public int getIndex(Marker marker) {
         return mMarkers.get(marker);
     }
+
+    public Marker getMarker(int index) { return mIndexToMarkerMap.get(index); }
 
     @Override
     public int getCount() {

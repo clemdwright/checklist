@@ -25,6 +25,7 @@ import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -75,10 +76,56 @@ public class MainActivity extends FragmentActivity implements
 
 
     @Override
-    public void respond(String data) {
+    public void passBeenMarkerState(Boolean isChecked, int placeIndex) {
+//        FragmentManager fragmentManager = getFragmentManager();
+//        DetailsFragment detailsFragment = (DetailsFragment) fragmentManager.findFragmentById(R.id.details);
+//        detailsFragment.changeText(data);
+
+        Place place = (Place) adapter.getItem(placeIndex);
+        //  get the marker for the current place from the hashmap
+        Marker oldMarker = adapter.getMarker(placeIndex);
+        //  get the position for the current marker
+        LatLng position = oldMarker.getPosition();
+        //  remove the old marker
+        oldMarker.remove();
+        //  add the new marker
+
+        if (isChecked == true) {
+            Marker newMarker = mMap.addMarker(new MarkerOptions()
+                    .position(position)
+                    .anchor(MapUtils.u, MapUtils.v)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_been_marker)));
+        } else {
+            Marker newMarker = mMap.addMarker(new MarkerOptions()
+                    .position(position)
+                    .anchor(MapUtils.u, MapUtils.v)
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_unrated_marker))); // this won't hold if has been previously saved
+        }
+
+
+        //  put the new marker in the hashmap
+
+
+        //    private void changeClickedMarker(Place place) {
+//        String placeId = place.getPlaceId();
+//        Marker oldMarker = mPlaceIdMarkerMap.get(placeId);
+//        LatLng position = oldMarker.getPosition();
+//        oldMarker.remove();
+//        Marker newMarker = mMap.addMarker(new MarkerOptions()
+//                .position(position)
+//                .anchor(MapUtils.u, MapUtils.v)
+//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_been_marker)));
+//
+//        mPlaceIdMarkerMap.put(placeId, newMarker);
+//        mMarkerPlaceMap.put(newMarker, place);
+//    }
+    }
+
+    @Override
+    public void passPlace(int placeIndex) {
         FragmentManager fragmentManager = getFragmentManager();
         DetailsFragment detailsFragment = (DetailsFragment) fragmentManager.findFragmentById(R.id.details);
-        detailsFragment.changeText(data);
+        detailsFragment.setPlace(placeIndex, adapter); // doubt it's good to pass the adapter around. damnit. maybe pass the index and the place?
     }
 
     /*
@@ -111,9 +158,9 @@ public class MainActivity extends FragmentActivity implements
                     @Override
                     public boolean onMarkerClick(Marker marker) {
                         int index = adapter.getIndex(marker);
-                        Place place = (Place) adapter.getItem(index);
+//                        Place place = (Place) adapter.getItem(index);
 
-                        communicator.respond(place.getName());
+                        communicator.passPlace(index);
 
 //                        populatePlaceSummary(place);
                         //        openItemDetails(place.getPlaceId());

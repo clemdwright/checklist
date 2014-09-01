@@ -5,10 +5,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 public class DetailsFragment extends Fragment {
+    int placeIndex;
+    Place place;
     TextView textView;
+    ToggleButton beenButton;
+    Communicator communicator;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -19,7 +25,41 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        // communicator is pointing to the Main Activity
+        communicator = (Communicator) getActivity();
+
         textView = (TextView) getActivity().findViewById(R.id.place_name);
+        beenButton = (ToggleButton) getActivity().findViewById(R.id.been);
+
+        beenButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+
+                    communicator.passBeenMarkerState(true, placeIndex);
+
+
+
+                    // The toggle is enabled
+//                    save.setVisibility(View.GONE);
+//                    love.setVisibility(View.VISIBLE);
+//                    save.setChecked(false);
+                } else {
+
+
+                    communicator.passBeenMarkerState(false, placeIndex);
+
+                    // The toggle is disabled
+//                    save.setVisibility(View.VISIBLE);
+//                    love.setVisibility(View.GONE);
+                }
+            }
+        });
+    }
+
+    public void setPlace(int placeIndex, PlacesAdapter adapter) {
+        this.placeIndex = placeIndex;
+        this.place = (Place) adapter.getItem(placeIndex);
     }
 
     public void changeText(String data) {
