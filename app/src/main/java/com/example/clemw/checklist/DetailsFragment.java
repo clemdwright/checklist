@@ -19,7 +19,7 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        textView = (TextView) getActivity().findViewById(R.id.text_view);
+        textView = (TextView) getActivity().findViewById(R.id.place_name);
     }
 
     public void changeText(String data) {
