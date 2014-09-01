@@ -66,7 +66,7 @@ public class MainActivity extends FragmentActivity implements
             public void onItemClick(AdapterView<?> parent, View v, int index, long id) {
                 Place place = (Place) adapter.getItem(index);
                 String placeId = place.getPlaceId();
-                openItemDetails(placeId);
+                // open place summary?
             }
         });
 
@@ -75,15 +75,6 @@ public class MainActivity extends FragmentActivity implements
          * handle callbacks.
          */
         mLocationClient = new LocationClient(this, this, this);
-    }
-
-    /*
-     * Opens up a place details activity via an intent.
-     */
-    private void openItemDetails(String placeId) {
-        Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
-        intent.putExtra("place_id", placeId);
-        startActivity(intent);
     }
 
     /*

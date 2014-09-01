@@ -71,9 +71,9 @@ public class PlacesAdapter extends BaseAdapter {
 //            convertView = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
 //        }
 //        // Lookup view for data population
-//        TextView placeName = (TextView) convertView.findViewById(R.id.place_name);
+//        TextView placeNameView = (TextView) convertView.findViewById(R.id.place_name);
 //        // Populate the data into the template view using the data object
-//        placeName.setText(place.getName());
+//        placeNameView.setText(place.getName());
 //        // Return the completed view to render on screen
 //        return convertView;
 //    }

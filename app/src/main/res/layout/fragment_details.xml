@@ -5,18 +5,45 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignBottom="@id/map"
-    android:background="@color/white">
+    android:background="@color/blue">
 
-    <TextView
-        android:id="@+id/place_name"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/large_font_size"
+        android:orientation="vertical"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginStart="@dimen/activity_horizontal_margin" />
+        android:layout_margin="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:id="@+id/place_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/large_font_size"
+            android:text="Place Name" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignTop="@id/place_name">
+
+            <TextView
+                android:id="@+id/rating"
+                android:text="Rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/price_level"
+                android:text="Price Level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+        </LinearLayout>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/toggle_buttons"
@@ -24,7 +51,9 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="@dimen/activity_horizontal_margin">
 
         <ToggleButton
             android:visibility="gone"

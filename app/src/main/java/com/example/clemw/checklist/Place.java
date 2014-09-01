@@ -42,10 +42,10 @@ public class Place extends Object {
         }
 
         try {
-            this.rating = place.getDouble("rating");
+            this.rating = place.getDouble("ratingView");
         } catch (Exception e) {
             this.rating = null;
-            Log.e("Place", "Error parsing place rating from JSON");
+            Log.e("Place", "Error parsing place ratingView from JSON");
         }
 
         try {

@@ -12,7 +12,9 @@ import android.widget.ToggleButton;
 public class DetailsFragment extends Fragment {
     int placeIndex;
     Place place;
-    TextView placeName;
+    TextView placeNameView;
+    TextView ratingView;
+    TextView priceLevelView;
     ToggleButton beenButton;
     Communicator communicator;
 
@@ -29,7 +31,9 @@ public class DetailsFragment extends Fragment {
         // communicator is pointing to the Main Activity
         communicator = (Communicator) getActivity();
 
-        placeName = (TextView) getActivity().findViewById(R.id.place_name);
+        placeNameView = (TextView) getActivity().findViewById(R.id.place_name);
+        ratingView = (TextView) getActivity().findViewById(R.id.rating);
+        priceLevelView = (TextView) getActivity().findViewById(R.id.price_level);
         beenButton = (ToggleButton) getActivity().findViewById(R.id.been);
 
         beenButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -46,18 +50,16 @@ public class DetailsFragment extends Fragment {
     public void setPlace(int placeIndex, Place place) {
         this.placeIndex = placeIndex;
         this.place = place;
-        placeName.setText(place.getName());
-        beenButton.setChecked(place.getBeen());
-//        this.place = (Place) adapter.getItem(placeIndex);
+        placeNameView.setText(place.getName());
+
+        Double rating = place.getRating();
+        Double price_level = place.getPriceLevel();
+        if (rating != null) ratingView.setText(rating.toString());
+        if (price_level != null) priceLevelView.setText(price_level.toString());
     }
 
-//    public void setPlace(int placeIndex, PlacesAdapter adapter) {
-//        this.placeIndex = placeIndex;
-////        this.place = (Place) adapter.getItem(placeIndex);
-//    }
-
     public void changeText(String data) {
-        placeName.setText(place.getName());
+        placeNameView.setText(place.getName());
     }
 }
 

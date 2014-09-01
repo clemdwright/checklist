@@ -25,12 +25,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".DetailsActivity"
-            android:label="@string/details_activity_name"
-            android:parentActivityName=".MainActivity">
-        </activity>
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
