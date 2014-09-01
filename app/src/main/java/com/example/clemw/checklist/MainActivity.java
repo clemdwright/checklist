@@ -59,6 +59,9 @@ public class MainActivity extends FragmentActivity implements
     // Stores the focused marker
     private Marker focusedMarker;
 
+    // Stores a communicator
+    Communicator communicator;
+
     // Maps markers to their corresponding place objects
 //    private HashMap<Marker, Place> mMarkerPlaceMap = new HashMap();
 
@@ -86,6 +89,9 @@ public class MainActivity extends FragmentActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Initialize communicator
+        communicator = this;
+
         // Get a handle for the UI objects
         mActivityIndicator = (ProgressBar) findViewById(R.id.address_progress);
         ListView listView = (ListView) findViewById(R.id.listView);
@@ -106,7 +112,10 @@ public class MainActivity extends FragmentActivity implements
                     public boolean onMarkerClick(Marker marker) {
                         int index = adapter.getIndex(marker);
                         Place place = (Place) adapter.getItem(index);
-                        populatePlaceSummary(place);
+
+                        communicator.respond(place.getName());
+
+//                        populatePlaceSummary(place);
                         //        openItemDetails(place.getPlaceId());
 
                         // Replace the icon of a certain place (test function)
