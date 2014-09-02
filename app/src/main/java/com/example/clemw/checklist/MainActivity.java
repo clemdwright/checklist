@@ -10,8 +10,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -36,7 +34,7 @@ public class MainActivity extends FragmentActivity implements
         GooglePlayServicesClient.OnConnectionFailedListener,
         Communicator {
 
-    private PlacesAdapter adapter;
+//    private PlacesAdapter adapter;
     private LocationClient mLocationClient;
     private ProgressBar mActivityIndicator;
     Communicator communicator;
@@ -54,21 +52,21 @@ public class MainActivity extends FragmentActivity implements
 
         // Get a handle for the UI objects
         mActivityIndicator = (ProgressBar) findViewById(R.id.address_progress);
-        ListView listView = (ListView) findViewById(R.id.listView);
-
-        // Create a new adapter and set it as the adapter for the ListView
-        adapter = new PlacesAdapter(this);
-        listView.setAdapter(adapter);
-
-        // Set a click listener for the list items
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View v, int index, long id) {
-                Place place = (Place) adapter.getItem(index);
-                String placeId = place.getPlaceId();
-                // open place summary?
-            }
-        });
+//        ListView listView = (ListView) findViewById(R.id.listView);
+//
+//        // Create a new adapter and set it as the adapter for the ListView
+//        adapter = new PlacesAdapter(this);
+//        listView.setAdapter(adapter);
+//
+//        // Set a click listener for the list items
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View v, int index, long id) {
+//                Place place = (Place) adapter.getItem(index);
+//                String placeId = place.getPlaceId();
+//                // open place summary?
+//            }
+//        });
 
         /*
          * Create a new location client, using the enclosing class to
@@ -163,21 +161,17 @@ public class MainActivity extends FragmentActivity implements
                 // Turn the indefinite activity indicator off
                 mActivityIndicator.setVisibility(View.GONE);
 
-
-//                CustomMap.mapPlaces(places);
-                adapter.setPlaces(places);
-                adapter.mapPlaces();
-                adapter.notifyDataSetChanged();
-
-//                communicator.passPlaces(places);
+                communicator.passPlaces(places);
             }
         });
     }
 
     @Override
     public void passPlaces(List<Place> places) {
-//
-//        adapter.setPlaces(places);
+        FragmentManager fragmentManager = getFragmentManager();
+        PlacesListFragment placesListFragment = (PlacesListFragment) fragmentManager.findFragmentById(R.id.list);
+        placesListFragment.setPlaces(places);
+
 ////        adapter.mapPlaces(mMap);
 //        adapter.notifyDataSetChanged();
     }
@@ -343,10 +337,10 @@ public class MainActivity extends FragmentActivity implements
 
     @Override
     public void passPlaceIndex(int placeIndex) {
-        FragmentManager fragmentManager = getFragmentManager();
-        DetailsFragment detailsFragment = (DetailsFragment) fragmentManager.findFragmentById(R.id.details);
-        Place place = (Place) adapter.getItem(placeIndex);
-        detailsFragment.setPlace(placeIndex, place);
+//        FragmentManager fragmentManager = getFragmentManager();
+//        DetailsFragment detailsFragment = (DetailsFragment) fragmentManager.findFragmentById(R.id.details);
+//        Place place = (Place) adapter.getItem(placeIndex);
+//        detailsFragment.setPlace(placeIndex, place);
     }
 
     @Override
