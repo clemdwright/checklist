@@ -73,6 +73,9 @@ public class CustomMap extends MapFragment {
  * Add the teardrop marker to show the place is focused
  */
     public void addFocusedMarker(LatLng position) {
+
+        // Also need to find a way to remove the current marker and bring it to the front, so it's not behind the other markers
+
         if (focusedMarker != null) {
             focusedMarker.remove();
         }
