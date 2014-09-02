@@ -20,6 +20,7 @@ public class PlacesAdapter extends BaseAdapter {
 
     private final Context context;
     private List<Place> places = new ArrayList<Place>();
+//    private LinkedHashSet<Place> placesSet = new LinkedHashSet<Place>();
 
     // Maps markers to their corresponding index in the places list
     private HashMap<Marker, Integer> mMarkers = new HashMap();
