@@ -17,7 +17,8 @@ package com.example.clemw.checklist;
  */
 
 import android.content.Context;
-import android.location.Location;
+
+import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Defines app-wide constants and utilities
@@ -45,21 +46,20 @@ public final class LocationUtils {
 
 
     /**
-     * Construct the Places API request using the Location object returned by
-     * Location Services.
+     * Construct the Places API request using a LatLng object.
      *
-     * @param currentLocation A Location object containing the current location
+     * @param location A LatLng object containing the current location
      * @return A url for the Places API request, or null if no location is available.
      */
-    public static String getPlacesApiRequest(Context context, Location currentLocation) {
+    public static String getPlacesApiRequest(Context context, LatLng location) {
         // If the location is valid
-        if (currentLocation != null) {
+        if (location != null) {
 
-            Double latDouble = currentLocation.getLatitude();
+            Double latDouble = location.latitude;
             String latString = latDouble.toString();
-            Double lonDouble = currentLocation.getLongitude();
-            String lonString = lonDouble.toString();
-            String url = urlPrefix + latString + "," + lonString + urlSuffix;
+            Double lngDouble = location.longitude;
+            String lngString = lngDouble.toString();
+            String url = urlPrefix + latString + "," + lngString + urlSuffix;
             return url;
 
         } else {

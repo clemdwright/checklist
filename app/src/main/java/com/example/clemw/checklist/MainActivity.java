@@ -119,14 +119,22 @@ public class MainActivity extends FragmentActivity implements
 
         // Zoom map to current location
         communicator.passCurrentLocation(currentLatLng);
-//        CustomMap.setLocation(currentLatLng);
 
         // Construct the Places API request URL
-        String url = LocationUtils.getPlacesApiRequest(this, currentLocation);
+        String url = LocationUtils.getPlacesApiRequest(this, currentLatLng);
 
         // Get nearby places
         getNearbyPlaces(url);
 
+    }
+
+    @Override
+    public void passCameraPosition(LatLng location, float zoom) {
+        // Construct the Places API request URL
+        String url = LocationUtils.getPlacesApiRequest(this, location);
+
+        // Get nearby places
+        getNearbyPlaces(url);
     }
 
     /*

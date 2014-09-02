@@ -18,4 +18,6 @@ public interface Communicator {
     public void passPlaces(List<Place> places);
 
     public void passPlace(Place place, int placeIndex);
+
+    public void passCameraPosition(LatLng target, float zoom);
 }

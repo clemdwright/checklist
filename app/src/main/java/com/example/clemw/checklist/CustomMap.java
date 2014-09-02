@@ -22,11 +22,14 @@ public class CustomMap extends MapFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        communicator = (Communicator) getActivity();
+
         mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(false);
-        mMap.setOnMarkerClickListener(
-                new GoogleMap.OnMarkerClickListener() {
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
 //                        int index = adapter.getIndex(marker);
@@ -48,7 +51,6 @@ public class CustomMap extends MapFragment {
         );
 
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
-
             public void onCameraChange(CameraPosition position) {
                 LatLng target = position.target;
                 float zoom = position.zoom;
@@ -56,8 +58,9 @@ public class CustomMap extends MapFragment {
                 Log.d("CustomMap", target.toString());
                 Log.d("CustomMap", Float.toString(zoom));
 
-//                mMap.animateCamera(CameraUpdateFactory.zoomTo(8));
-//                mMap.setOnCameraChangeListener(YourMapActivity.this);
+                communicator.passCameraPosition(target, zoom);
+
+
             }
         });
     }
