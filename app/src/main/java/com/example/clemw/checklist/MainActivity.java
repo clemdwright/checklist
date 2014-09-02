@@ -338,6 +338,7 @@ public class MainActivity extends FragmentActivity implements
         LatLng location = place.getPosition();
         CustomMap customMap = (CustomMap) fragmentManager.findFragmentById(R.id.map);
         customMap.addFocusedMarker(location);
+        customMap.animateCamera(location);
     }
 
     @Override

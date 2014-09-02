@@ -66,6 +66,10 @@ public class CustomMap extends MapFragment {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, MapUtils.ZOOM));
     }
 
+    public void animateCamera(LatLng location) {
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, MapUtils.ZOOM));
+    }
+
 
 /*
  * Add the teardrop marker to show the place is focused
