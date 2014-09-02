@@ -1,10 +1,12 @@
 package com.example.clemw.checklist;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -44,11 +46,26 @@ public class CustomMap extends MapFragment {
                     }
                 }
         );
+
+        mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+
+            public void onCameraChange(CameraPosition position) {
+                LatLng target = position.target;
+                float zoom = position.zoom;
+
+                Log.d("CustomMap", target.toString());
+                Log.d("CustomMap", Float.toString(zoom));
+
+//                mMap.animateCamera(CameraUpdateFactory.zoomTo(8));
+//                mMap.setOnCameraChangeListener(YourMapActivity.this);
+            }
+        });
     }
 
     public void setLocation(LatLng currentLatLng) {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, MapUtils.ZOOM));
     }
+
 
 /*
  * Add the teardrop marker to show the place is focused
