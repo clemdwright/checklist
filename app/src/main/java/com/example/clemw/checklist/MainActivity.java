@@ -18,6 +18,7 @@ import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -340,6 +341,13 @@ public class MainActivity extends FragmentActivity implements
         FragmentManager fragmentManager = getFragmentManager();
         CustomMap customMap = (CustomMap) fragmentManager.findFragmentById(R.id.map);
         customMap.setLocation(currentLocation);
+    }
+
+    @Override
+    public void passMarker(Marker marker) {
+        FragmentManager fragmentManager = getFragmentManager();
+        PlacesListFragment placesListFragment = (PlacesListFragment) fragmentManager.findFragmentById(R.id.list);
+        placesListFragment.setDetailsFromMarker(marker);
     }
 
 }

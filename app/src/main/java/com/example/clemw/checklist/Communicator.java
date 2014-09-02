@@ -1,6 +1,7 @@
 package com.example.clemw.checklist;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface Communicator {
     public void passPlace(Place place, int placeIndex);
 
     public void passCameraPosition(LatLng target, float zoom);
+
+    public void passMarker(Marker marker);
 }

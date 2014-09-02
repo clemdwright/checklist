@@ -35,14 +35,8 @@ public class CustomMap extends MapFragment {
 //                        int index = adapter.getIndex(marker);
 ////                        Place place = (Place) adapter.getItem(index);
 //
-//                        communicator.passPlaceIndex(index);
-//
-////                        populatePlaceSummary(place);
-//                        //        openItemDetails(place.getPlaceId());
-//
-//                        // Replace the icon of a certain place (test function)
-////                        changeClickedMarker(place);
-//
+                        communicator.passMarker(marker);
+
                         // Add the teardrop marker to show the place is focused
                         addFocusedMarker(marker.getPosition());
                         return true; // We've consumed the event, don't show the info window
@@ -50,6 +44,9 @@ public class CustomMap extends MapFragment {
                 }
         );
 
+
+        //This updates too frequently, mid-pan
+        //This article claims to solve it: http://dimitar.me/how-to-detect-a-user-pantouchdrag-on-android-map-v2/
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             public void onCameraChange(CameraPosition position) {
                 LatLng target = position.target;

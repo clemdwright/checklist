@@ -28,7 +28,6 @@ public class PlacesAdapter extends BaseAdapter {
 
     public PlacesAdapter(Context c) {
         context = c;
-//        mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
     }
 
     public void setPlaces(List<Place> places) {
@@ -58,6 +57,8 @@ public class PlacesAdapter extends BaseAdapter {
     public long getItemId(int index) {
         return 0;
     }
+
+
 
     // Maybe some variable in the adapter keeps track of which place is currently selected, if any
 
@@ -111,6 +112,7 @@ public class PlacesAdapter extends BaseAdapter {
     // I just really don't like passing the map around
     // Maybe there's a way to have the map in a fragment or something... murr
     public void mapPlaces(GoogleMap map) {
+        map.clear();
         for (int i = 0; i < places.size(); i++) {
             Place place = places.get(i);
 
@@ -129,5 +131,9 @@ public class PlacesAdapter extends BaseAdapter {
 
         mMarkers.put(marker, index);
         mIndexToMarkerMap.put(index, marker);
+    }
+
+    public int getPositionFromMarker(Marker marker) {
+        return mMarkers.get(marker);
     }
 }
