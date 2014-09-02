@@ -7,7 +7,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -29,7 +28,7 @@ public class PlacesAdapter extends BaseAdapter {
 
     public PlacesAdapter(Context c) {
         context = c;
-        mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+//        mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
     }
 
     public void setPlaces(List<Place> places) {
