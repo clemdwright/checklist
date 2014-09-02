@@ -47,7 +47,7 @@ public class DetailsFragment extends Fragment {
         });
     }
 
-    public void setPlace(int placeIndex, Place place) {
+    public void setPlace(Place place, int placeIndex) {
         this.placeIndex = placeIndex;
         this.place = place;
         placeNameView.setText(place.getName());

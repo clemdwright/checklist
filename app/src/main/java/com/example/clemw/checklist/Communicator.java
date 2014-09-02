@@ -16,4 +16,6 @@ public interface Communicator {
     public void passCurrentLocation(LatLng currentLocation);
 
     public void passPlaces(List<Place> places);
+
+    public void passPlace(Place place, int placeIndex);
 }

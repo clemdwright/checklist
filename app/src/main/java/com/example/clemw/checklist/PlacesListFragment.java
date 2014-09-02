@@ -13,6 +13,7 @@ import java.util.List;
 public class PlacesListFragment extends ListFragment {
 
     private PlacesAdapter adapter;
+    private Communicator communicator;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -20,14 +21,15 @@ public class PlacesListFragment extends ListFragment {
 
         adapter = new PlacesAdapter(getActivity());
         setListAdapter(adapter);
+
+        communicator = (Communicator) getActivity();
     }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-//        showDetails(position);
-//        Place place = (Place) adapter.getItem(index);
+        Place place = (Place) adapter.getItem(position);
 //        String placeId = place.getPlaceId();
-        // open place summary?
+        communicator.passPlace(place, position);
     }
 
     public void setPlaces(List<Place> places) {

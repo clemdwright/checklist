@@ -34,7 +34,6 @@ public class MainActivity extends FragmentActivity implements
         GooglePlayServicesClient.OnConnectionFailedListener,
         Communicator {
 
-//    private PlacesAdapter adapter;
     private LocationClient mLocationClient;
     private ProgressBar mActivityIndicator;
     Communicator communicator;
@@ -46,43 +45,16 @@ public class MainActivity extends FragmentActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // Initialize communicator
         communicator = this;
 
         // Get a handle for the UI objects
         mActivityIndicator = (ProgressBar) findViewById(R.id.address_progress);
-//        ListView listView = (ListView) findViewById(R.id.listView);
-//
-//        // Create a new adapter and set it as the adapter for the ListView
-//        adapter = new PlacesAdapter(this);
-//        listView.setAdapter(adapter);
-//
-//        // Set a click listener for the list items
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View v, int index, long id) {
-//                Place place = (Place) adapter.getItem(index);
-//                String placeId = place.getPlaceId();
-//                // open place summary?
-//            }
-//        });
 
         /*
          * Create a new location client, using the enclosing class to
          * handle callbacks.
          */
         mLocationClient = new LocationClient(this, this, this);
-    }
-
-    /*
-     * Called when the Activity is no longer visible.
-     */
-    @Override
-    protected void onStop() {
-        // Disconnecting the client invalidates it.
-        mLocationClient.disconnect();
-        super.onStop();
     }
 
     /*
@@ -100,8 +72,17 @@ public class MainActivity extends FragmentActivity implements
     }
 
     /*
-     * Handle results returned to the FragmentActivity
-     * by Google Play services
+     * Called when the Activity is no longer visible.
+     */
+    @Override
+    protected void onStop() {
+        // Disconnecting the client invalidates it.
+        mLocationClient.disconnect();
+        super.onStop();
+    }
+
+    /*
+     * Handle results returned to the FragmentActivity by Google Play services
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -148,7 +129,6 @@ public class MainActivity extends FragmentActivity implements
 
     }
 
-
     /*
      * Called by onConnected when there is a current location.
      */
@@ -171,9 +151,6 @@ public class MainActivity extends FragmentActivity implements
         FragmentManager fragmentManager = getFragmentManager();
         PlacesListFragment placesListFragment = (PlacesListFragment) fragmentManager.findFragmentById(R.id.list);
         placesListFragment.setPlaces(places);
-
-////        adapter.mapPlaces(mMap);
-//        adapter.notifyDataSetChanged();
     }
 
     /*
@@ -341,6 +318,13 @@ public class MainActivity extends FragmentActivity implements
 //        DetailsFragment detailsFragment = (DetailsFragment) fragmentManager.findFragmentById(R.id.details);
 //        Place place = (Place) adapter.getItem(placeIndex);
 //        detailsFragment.setPlace(placeIndex, place);
+    }
+
+    @Override
+    public void passPlace(Place place, int placeIndex) {
+        FragmentManager fragmentManager = getFragmentManager();
+        DetailsFragment detailsFragment = (DetailsFragment) fragmentManager.findFragmentById(R.id.details);
+        detailsFragment.setPlace(place, placeIndex);
     }
 
     @Override
