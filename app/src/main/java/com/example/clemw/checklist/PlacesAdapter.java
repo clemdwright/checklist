@@ -1,6 +1,7 @@
 package com.example.clemw.checklist;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -14,13 +15,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 public class PlacesAdapter extends BaseAdapter {
 
     private final Context context;
     private List<Place> places = new ArrayList<Place>();
-//    private LinkedHashSet<Place> placesSet = new LinkedHashSet<Place>();
+    private LinkedHashSet<Place> placesSet = new LinkedHashSet<Place>();
 
     // Maps markers to their corresponding index in the places list
     private HashMap<Marker, Integer> mMarkers = new HashMap();
@@ -33,7 +35,36 @@ public class PlacesAdapter extends BaseAdapter {
     }
 
     public void setPlaces(List<Place> places) {
-        this.places = places;
+        if (this.places.isEmpty()) {
+            Log.d("this.places is empty", Integer.toString(this.places.size()));
+
+            this.places = places;
+            this.placesSet.addAll(places);
+        } else {
+            Log.d("this.places is NOT empty", Integer.toString(this.places.size()));
+            addPlaces(places);
+        }
+    }
+
+    /*
+     * Added as an attempt to remove duplicates.
+     * Worked, but there are other usability issues associated with this
+     * approach so tabling for now.
+     */
+    private void addPlaces(List<Place> places) {
+        Log.d("new places size", Integer.toString(places.size()));
+        Log.d("this.places before size", Integer.toString(this.places.size()));
+        Log.d("placesSet before size", Integer.toString(placesSet.size()));
+
+        // Add the new places to the places set
+        placesSet.addAll(places);
+        Log.d("placesSet after size", Integer.toString(placesSet.size()));
+
+        // Remove the places already in the
+        this.places.clear();
+        Log.d("this.places size during", Integer.toString(this.places.size()));
+        this.places.addAll(placesSet);
+        Log.d("this.places size after", Integer.toString(this.places.size()));
     }
 
     public int getIndex(Marker marker) {

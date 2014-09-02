@@ -1,10 +1,12 @@
 package com.example.clemw.checklist;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -45,19 +47,19 @@ public class CustomMap extends MapFragment {
 
         //This updates too frequently, mid-pan
         //This article claims to solve it: http://dimitar.me/how-to-detect-a-user-pantouchdrag-on-android-map-v2/
-//        mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
-//            public void onCameraChange(CameraPosition position) {
-//                LatLng target = position.target;
-//                float zoom = position.zoom;
-//
-//                Log.d("CustomMap", target.toString());
-//                Log.d("CustomMap", Float.toString(zoom));
-//
-//                communicator.passCameraPosition(target, zoom);
-//
-//
-//            }
-//        });
+        mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+            public void onCameraChange(CameraPosition position) {
+                LatLng target = position.target;
+                float zoom = position.zoom;
+
+                Log.d("CustomMap", target.toString());
+                Log.d("CustomMap", Float.toString(zoom));
+
+                communicator.passCameraPosition(target, zoom);
+
+
+            }
+        });
     }
 
     public void setLocation(LatLng currentLatLng) {
