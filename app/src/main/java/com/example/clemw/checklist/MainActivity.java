@@ -334,6 +334,10 @@ public class MainActivity extends FragmentActivity implements
         FragmentManager fragmentManager = getFragmentManager();
         DetailsFragment detailsFragment = (DetailsFragment) fragmentManager.findFragmentById(R.id.details);
         detailsFragment.setPlace(place, placeIndex);
+
+        LatLng location = place.getPosition();
+        CustomMap customMap = (CustomMap) fragmentManager.findFragmentById(R.id.map);
+        customMap.addFocusedMarker(location);
     }
 
     @Override

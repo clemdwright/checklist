@@ -70,7 +70,7 @@ public class CustomMap extends MapFragment {
 /*
  * Add the teardrop marker to show the place is focused
  */
-    private void addFocusedMarker(LatLng position) {
+    public void addFocusedMarker(LatLng position) {
         if (focusedMarker != null) {
             focusedMarker.remove();
         }
