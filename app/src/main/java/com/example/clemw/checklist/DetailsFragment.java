@@ -16,6 +16,8 @@ public class DetailsFragment extends Fragment {
     TextView ratingView;
     TextView priceLevelView;
     ToggleButton beenButton;
+    ToggleButton saveButton;
+    ToggleButton likeButton;
     Communicator communicator;
 
     @Override
@@ -35,13 +37,22 @@ public class DetailsFragment extends Fragment {
         ratingView = (TextView) getActivity().findViewById(R.id.rating);
         priceLevelView = (TextView) getActivity().findViewById(R.id.price_level);
         beenButton = (ToggleButton) getActivity().findViewById(R.id.been);
+        saveButton = (ToggleButton) getActivity().findViewById(R.id.save);
+        likeButton = (ToggleButton) getActivity().findViewById(R.id.like);
+
 
         beenButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                saveButton.setChecked(false);
+                likeButton.setChecked(false);
                 if (isChecked) {
                     communicator.passBeenMarkerState(true, placeIndex);
+                    saveButton.setVisibility(View.GONE);
+                    likeButton.setVisibility(View.VISIBLE);
                 } else {
                     communicator.passBeenMarkerState(false, placeIndex);
+                    saveButton.setVisibility(View.VISIBLE);
+                    likeButton.setVisibility(View.GONE);
                 }
             }
         });
