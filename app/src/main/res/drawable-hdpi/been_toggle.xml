@@ -3,9 +3,9 @@
     <!--<item android:state_checked="true" android:drawable="@color/green" /> &lt;!&ndash; checked &ndash;&gt;-->
     <!--<item android:state_checked="false" android:drawable="@color/gray" /> &lt;!&ndash; checked &ndash;&gt;-->
     <!-- When selected, use green -->
-    <item android:drawable="@drawable/ic_been_marker"
+    <item android:drawable="@drawable/ic_been_selected"
         android:state_checked="true" />
     <!-- When not selected, use gray-->
-    <item android:drawable="@drawable/ic_been_unselected"
+    <item android:drawable="@drawable/ic_been_selected"
         android:state_checked="false"/>
 </selector>

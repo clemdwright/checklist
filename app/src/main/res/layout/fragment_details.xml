@@ -57,27 +57,27 @@
 
         <ToggleButton
             android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_width"
             android:id="@+id/love"
-            android:textOff="!love"
-            android:textOn="love"
+            android:textOff=""
+            android:textOn=""
             android:background="@drawable/love_toggle" />
 
         <ToggleButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_width"
             android:id="@+id/save"
-            android:textOff="!save"
-            android:textOn="save"
+            android:textOff=""
+            android:textOn=""
             android:background="@drawable/save_toggle" />
 
         <ToggleButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_width"
             android:id="@+id/been"
-            android:textOff="!been"
-            android:textOn="been"
+            android:textOff=""
+            android:textOn=""
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:background="@drawable/been_toggle" />
