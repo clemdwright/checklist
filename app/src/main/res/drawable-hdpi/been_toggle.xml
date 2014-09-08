@@ -6,6 +6,6 @@
     <item android:drawable="@drawable/ic_been_selected"
         android:state_checked="true" />
     <!-- When not selected, use gray-->
-    <item android:drawable="@drawable/ic_been_selected"
+    <item android:drawable="@drawable/ic_been_unselected"
         android:state_checked="false"/>
 </selector>

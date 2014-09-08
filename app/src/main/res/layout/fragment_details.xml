@@ -80,7 +80,7 @@
             android:textOn=""
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:background="@drawable/been_toggle" />
+            android:background="@drawable/been_toggle"/>
 
         <LinearLayout
             android:id="@+id/bottom_toggle_buttons"
