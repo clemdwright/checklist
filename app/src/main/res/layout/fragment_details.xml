@@ -62,7 +62,7 @@
             android:id="@+id/love"
             android:textOff=""
             android:textOn=""
-            android:background="@drawable/love_toggle" />
+            android:background="@drawable/like_toggle" />
 
         <ToggleButton
             android:layout_width="@dimen/button_width"
