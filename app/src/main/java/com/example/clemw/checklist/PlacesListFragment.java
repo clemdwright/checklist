@@ -58,7 +58,4 @@ public class PlacesListFragment extends ListFragment {
         adapter.setPlaces(places);
         adapter.notifyDataSetChanged();
     }
-
-
-
 }

@@ -36,6 +36,7 @@ public class MainActivity extends FragmentActivity implements
         ConnectionCallbacks, OnConnectionFailedListener,
         Communicator {
 
+<<<<<<< HEAD
     protected static final String TAG = "MainActivity";
 
     /*
@@ -44,6 +45,18 @@ public class MainActivity extends FragmentActivity implements
     protected GoogleApiClient mGoogleApiClient;
 
     //    private LocationClient mLocationClient;
+||||||| merged common ancestors
+    private LocationClient mLocationClient;
+=======
+    protected static final String TAG = "MainActivity";
+
+    /*
+     * Provides the entry point to Google Play services.
+     */
+    protected GoogleApiClient mGoogleApiClient;
+
+//    private LocationClient mLocationClient;
+>>>>>>> buttons
     private ProgressBar mActivityIndicator;
     Communicator communicator;
 
