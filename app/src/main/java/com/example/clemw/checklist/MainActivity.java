@@ -14,9 +14,11 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
@@ -31,11 +33,17 @@ import java.util.List;
  * This the app's main Activity. It displays a list of nearby places.
  */
 public class MainActivity extends FragmentActivity implements
-        GooglePlayServicesClient.ConnectionCallbacks,
-        GooglePlayServicesClient.OnConnectionFailedListener,
+        ConnectionCallbacks, OnConnectionFailedListener,
         Communicator {
 
-    private LocationClient mLocationClient;
+    protected static final String TAG = "MainActivity";
+
+    /*
+     * Provides the entry point to Google Play services.
+     */
+    protected GoogleApiClient mGoogleApiClient;
+
+//    private LocationClient mLocationClient;
     private ProgressBar mActivityIndicator;
     Communicator communicator;
 
@@ -51,11 +59,18 @@ public class MainActivity extends FragmentActivity implements
         // Get a handle for the UI objects
         mActivityIndicator = (ProgressBar) findViewById(R.id.address_progress);
 
-        /*
-         * Create a new location client, using the enclosing class to
-         * handle callbacks.
-         */
-        mLocationClient = new LocationClient(this, this, this);
+        buildGoogleApiClient();
+    }
+
+    /**
+     * Builds a GoogleApiClient. Uses the addApi() method to request the LocationServices API.
+     */
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
     }
 
     /*
@@ -64,11 +79,7 @@ public class MainActivity extends FragmentActivity implements
     @Override
     public void onStart() {
         super.onStart();
-
-        /*
-         * Connect the location client.
-         */
-        mLocationClient.connect();
+        mGoogleApiClient.connect();
 
     }
 
@@ -77,9 +88,18 @@ public class MainActivity extends FragmentActivity implements
      */
     @Override
     protected void onStop() {
-        // Disconnecting the client invalidates it.
-        mLocationClient.disconnect();
         super.onStop();
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int cause) {
+        // The connection to Google Play services was lost for some reason. We call connect() to
+        // attempt to re-establish the connection.
+        Log.i(TAG, "Connection suspended");
+        mGoogleApiClient.connect();
     }
 
     /*
@@ -113,19 +133,25 @@ public class MainActivity extends FragmentActivity implements
     public void onConnected(Bundle dataBundle) {
 
         // Get the current location
-        Location currentLocation = mLocationClient.getLastLocation();
+        Location currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
-        // Get the current lat/lng
-        LatLng currentLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        if (currentLocation != null) {
 
-        // Zoom map to current location
-        communicator.passCurrentLocation(currentLatLng);
+            // Get the current lat/lng
+            LatLng currentLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
 
-        // Construct the Places API request URL
-        String url = LocationUtils.getPlacesApiRequest(this, currentLatLng);
+            // Zoom map to current location
+            communicator.passCurrentLocation(currentLatLng);
 
-        // Get nearby places
-        getNearbyPlaces(url);
+            // Construct the Places API request URL
+            String url = LocationUtils.getPlacesApiRequest(this, currentLatLng);
+
+            // Get nearby places
+            getNearbyPlaces(url);
+
+        } else {
+            Toast.makeText(this, R.string.no_location_detected, Toast.LENGTH_LONG).show();
+        }
 
     }
 
@@ -179,17 +205,6 @@ public class MainActivity extends FragmentActivity implements
             Log.e("JsonParser", "Error creating list from parsed JSON");
             return Collections.emptyList();
         }
-    }
-
-    /*
-     * Called by Location Services if the connection to the
-     * location client drops because of an error.
-     */
-    @Override
-    public void onDisconnected() {
-        // Display the connection status
-        Toast.makeText(this, "Disconnected. Please re-connect.",
-                Toast.LENGTH_SHORT).show();
     }
 
     /*
